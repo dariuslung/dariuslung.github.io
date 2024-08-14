@@ -1,1 +1,2 @@
-# dariuslung.github.io
+My personal website
+Designed and written by me
