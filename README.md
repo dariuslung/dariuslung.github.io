@@ -1,2 +1,2 @@
-My personal website
-Designed and written by me
+My personal website<br>
+Designed and written by Darius Lung (me)
