@@ -1,3 +1,4 @@
+// Under construction animation
 const construction = document.getElementById('construction');
 const text = 'Under construction.';
 var count = 0;
@@ -13,3 +14,4 @@ const addDots = () => {
 
 addDots();
 setInterval(addDots, 500);
+
