@@ -7,9 +7,7 @@ const addDots = () => {
     count += 1;
     count = count % 4;
     construction.innerText = text;
-    for (let i = 0; i < count; i++) {
-        construction.innerText += '.';
-    }
+    construction.innerText += '.'.repeat(count);
 }
 
 addDots();
