@@ -31,7 +31,7 @@
     height: 200px;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 767px) {
     #profile_pic {
         width: 30vw;
         height: 30vw;
