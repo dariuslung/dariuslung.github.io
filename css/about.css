@@ -22,7 +22,8 @@
 }
 
 #card_slider img {
-    max-height: 200px;
+    height: 200px;
+    width: auto;
 }
 
 #profile_pic {
@@ -41,7 +42,8 @@
         height: 30vw;
     }
     #card_slider img {
-        max-height: 30vh;
+        height: 30vh;
+        width: auto;
     }
     .exp_image {
         max-height: 30vh;
