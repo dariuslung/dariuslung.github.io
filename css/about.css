@@ -40,6 +40,9 @@
         width: 30vw;
         height: 30vw;
     }
+    #card_slider img{
+        max-width: 100%;
+    }
     #card_slider {
         --f-carousel-spacing: 40px;
 
