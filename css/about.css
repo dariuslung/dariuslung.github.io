@@ -1,6 +1,4 @@
 #card_slider {
-    max-height: 200px;
-
     --f-carousel-slide-width: auto;
     --f-carousel-spacing: 10px;
   
@@ -43,7 +41,10 @@
         height: 30vw;
     }
     #card_slider {
-        max-height: 30vh;
+        --f-carousel-spacing: 40px;
+
+        --f-button-prev-pos: -1rem;
+        --f-button-next-pos: -1rem;
     }
     .exp_image {
         max-height: 30vh;
