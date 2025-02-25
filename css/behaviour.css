@@ -1,4 +1,4 @@
-.no-select {
+.no_select {
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
     -khtml-user-select: none; /* Konqueror HTML */
@@ -8,10 +8,10 @@
     supported by Chrome, Edge, Opera and Firefox */
 }
 
-.url-no-decor {
+.url_no_decor {
     color: inherit; text-decoration: none;
 }
 
-.url-no-color {
+.url_no_color {
     color: inherit; 
 }

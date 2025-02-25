@@ -22,13 +22,17 @@
 }
 
 #card_slider img {
-    height: 200px;
-    width: auto;
+    max-height: 200px;
 }
 
 #profile_pic {
     width: 200px;
     height: 200px;
+}
+
+.exp_image {
+    max-height: 200px; 
+    max-width: 100%;
 }
 
 @media screen and (max-width: 767px) {
@@ -37,7 +41,9 @@
         height: 30vw;
     }
     #card_slider img {
-        height: 20vh;
-        width: auto;
+        max-height: 30vh;
+    }
+    .exp_image {
+        max-height: 30vh;
     }
 }
