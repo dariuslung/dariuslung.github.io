@@ -17,4 +17,4 @@ const about_carousel = new Carousel(document.getElementById('card_slider'), {
 
 setTimeout(() => {
     about_carousel.reInit();
-}, 50);
+}, 100);

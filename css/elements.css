@@ -14,5 +14,11 @@ body {
     margin: 10px auto;
     padding: 2rem;
     border-radius: 12px;
-    max-width: 60%;
+    max-width: 60vw;
+}
+
+@media screen and (max-width: 600px) {
+    .content {
+        max-width: 90vw;
+    }
 }

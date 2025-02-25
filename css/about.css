@@ -21,6 +21,11 @@
       rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 }
 
+#card_slider img {
+    height: 200px;
+    width: auto;
+}
+
 #profile_pic {
     width: 200px;
     height: 200px;
@@ -30,5 +35,9 @@
     #profile_pic {
         width: 30vw;
         height: 30vw;
+    }
+    #card_slider img {
+        height: 20vh;
+        width: auto;
     }
 }
