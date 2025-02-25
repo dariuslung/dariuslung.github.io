@@ -1,4 +1,6 @@
 #card_slider {
+    max-height: 200px;
+
     --f-carousel-slide-width: auto;
     --f-carousel-spacing: 10px;
   
@@ -22,8 +24,7 @@
 }
 
 #card_slider img {
-    height: 200px;
-    width: auto;
+    max-height: 200px;
 }
 
 #profile_pic {
@@ -41,9 +42,8 @@
         width: 30vw;
         height: 30vw;
     }
-    #card_slider img {
-        height: 30vh;
-        width: auto;
+    #card_slider {
+        max-height: 30vh;
     }
     .exp_image {
         max-height: 30vh;
