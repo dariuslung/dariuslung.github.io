@@ -15,7 +15,7 @@ const about_carousel = new Carousel(document.getElementById('card_slider'), {
     transition: false,
     on: {
         load: () => {
-            console.log("loaded");
+            // console.log("loaded");
             about_carousel.updateMetrics();
         },
     },
