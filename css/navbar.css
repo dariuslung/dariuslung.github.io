@@ -1,0 +1,14 @@
+.navbar {
+    background-color: white;
+}
+
+.nav-item .active {
+    text-decoration-line: underline;
+    text-decoration-color: #E0E0E0;
+    text-decoration-thickness: 3px;
+    text-underline-offset: 5px;
+}
+
+#offcanvasNavbar {
+    max-width: 300px;
+}

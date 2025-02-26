@@ -4,10 +4,6 @@ body {
     min-width: 320px;
 }
 
-.navbar {
-    background-color: white;
-}
-
 .content {
     background-color: white;
     color: black;
