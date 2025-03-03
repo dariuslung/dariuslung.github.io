@@ -2,8 +2,8 @@
     --f-carousel-slide-width: auto;
     --f-carousel-spacing: 10px;
   
-    --f-button-prev-pos: -1rem;
-    --f-button-next-pos: -1rem;
+    --f-button-prev-pos: 1rem;
+    --f-button-next-pos: 1rem;
   
     --f-button-bg: #FFF;
     --f-button-color: #333;
@@ -12,8 +12,8 @@
     --f-button-height: 48px;
     --f-button-border-radius: 50%;
   
-    --f-button-svg-width: 27px;
-    --f-button-svg-height: 27px;
+    --f-button-svg-width: 22px;
+    --f-button-svg-height: 20px;
     --f-button-svg-stroke-width: 1.5;
   
     --f-button-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
