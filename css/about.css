@@ -5,8 +5,13 @@
     --f-button-prev-pos: 1rem;
     --f-button-next-pos: 1rem;
   
-    --f-button-bg: #FFF;
-    --f-button-color: #333;
+    --f-button-color: rgb(33, 33, 33, 0.5);
+    --f-button-hover-color: rgb(33, 33, 33, 1);
+    --f-button-active-color: rgb(33, 33, 33, 1);
+    
+    --f-button-bg: rgba(255, 255, 255, 0.5);
+    --f-button-hover-bg: rgba(255, 255, 255, 1);
+    --f-button-active-bg: rgba(255, 255, 255, 1);
   
     --f-button-width: 48px;
     --f-button-height: 48px;
