@@ -16,7 +16,10 @@
     <!-- Load modules -->
     <script type="text/javascript">
         $(document).ready(function(){
-            $('#menu').load('/modules/navbar.html');
+            $.get('/modules/navbar.html', function(data){
+                content = data;
+                $('#navbar_container').append(content);
+            });
         });
     </script>
     
@@ -26,7 +29,16 @@
 </head>
 
 <body>
-    <div id="menu"></div>
+    <nav class="navbar navbar-expand-md navbar-light">
+        <div id="navbar_container" class="container">
+            <a class="navbar-brand no_select">
+                Darius Lung
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
 
     <div class="pt-5" id="construction" style="text-align: center; font-size: xx-large"></div>
     <p class="pt-3" style="text-align: center;">Please proceed to <a class="url_no_color" href="/about.html">About</a> or <a class="url_no_color" href="/contact.html">Contact</a> :)</p>
