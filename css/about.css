@@ -1,9 +1,9 @@
 #card_slider {
     --f-carousel-slide-width: auto;
-    --f-carousel-spacing: 10px;
+    --f-carousel-spacing: 40px;
   
-    --f-button-prev-pos: 1rem;
-    --f-button-next-pos: 1rem;
+    --f-button-prev-pos: -1rem;
+    --f-button-next-pos: -1rem;
   
     --f-button-color: rgb(33, 33, 33, 0.5);
     --f-button-hover-color: rgb(33, 33, 33, 1);
@@ -27,36 +27,36 @@
 }
 
 #card_slider img {
-    max-height: 200px;
+    max-height: 30vh;
     max-width: 100%;
 }
 
 #profile_pic {
-    width: 200px;
-    height: 200px;
+    width: 30vw;
+    height: 30vw;
 }
 
 .exp_image {
-    max-height: 200px; 
+    max-height: 30vh; 
     max-width: 100%;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (min-width: 768px) {
     #profile_pic {
-        width: 30vw;
-        height: 30vw;
+        width: 200px;
+        height: 200px;    
     }
-    #card_slider img{
-        max-height: 30vh;
+    #card_slider img {
+        max-height: 200px;
         max-width: 100%;
     }
     #card_slider {
-        --f-carousel-spacing: 40px;
+        --f-carousel-spacing: 10px;
 
-        --f-button-prev-pos: -1rem;
-        --f-button-next-pos: -1rem;
+        --f-button-prev-pos: 1rem;
+        --f-button-next-pos: 1rem;
     }
     .exp_image {
-        max-height: 30vh;
+        max-height: 200px;
     }
 }
