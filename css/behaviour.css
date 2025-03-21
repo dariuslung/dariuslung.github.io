@@ -8,10 +8,10 @@
     supported by Chrome, Edge, Opera and Firefox */
 }
 
-.url_no_decor {
+.url-no-decor {
     color: inherit; text-decoration: none;
 }
 
-.url_no_color {
+.url-no-color {
     color: inherit; 
 }
