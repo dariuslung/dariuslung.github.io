@@ -9,12 +9,18 @@ body {
     color: #333333;
     margin: 10px auto;
     padding: 2rem;
+    border-style: solid;
+    border-width: 0.5px;
+    border-color: #E0E0E0;
     border-radius: 12px;
     max-width: 90vw;
 }
 
 .navbar {
     background-color: white;
+    border-style: solid;
+    border-width: 0.5px;
+    border-color: #E0E0E0;
 }
 
 .nav-item .active {
