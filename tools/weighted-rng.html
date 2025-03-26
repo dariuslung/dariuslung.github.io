@@ -41,8 +41,22 @@
     </nav>
 
     <div class="content">
-        <h2 class="pb-2">Tools</h2>
-        <a class="url-no-color" href="/tools/weighted-rng.html">Weighted RNG (in development)</a>
+        <h2 class="pb-2">Weighted RNG (in development)</h2>
+        <div id="input_container">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Label" aria-label="Label">
+                <input type="number" class="form-control" value="1" step="0.001" placeholder="Weight" aria-label="Weight">
+                <button class="btn btn-outline-danger" type="button">X</button>
+            </div>
+        </div>
+        <button id="add_input_btn" class="btn btn-outline-primary mt-3" type="button">+</button>
+        <br>
+        <div class="input-group mt-3">
+            <button id="gen_btn" class="btn btn-outline-success" type="button">Generate Random</button>
+            <div id="gen_result">Result will be shown here</div>
+        </div>
+        <br>
+        <button id="dstb_btn" class="btn btn-outline-success mt-3" type="button">Generate Distribution</button>
     </div>
 </body>
 
