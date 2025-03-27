@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<style>
+    .placeholder-light::placeholder {
+        color: white !important;
+    }
+</style>
+
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Contact</title>
+    <title>Weighted RNG</title>
     <link rel="icon" href="/img/favicon.svg" type="image/x-icon">
     
     <!-- Bootstrap 5.3.3 -->
@@ -41,23 +47,25 @@
     </nav>
 
     <div class="content">
-        <h2 class="pb-2">Weighted RNG (in development)</h2>
+        <h2 class="pb-2">Weighted RNG</h2>
+        <div id="sample_input" class="input-group collapse">
+            <input type="text" name="label" class="form-control rounded-0" placeholder="Label" aria-label="Label">
+            <input type="number" name="weight" class="form-control rounded-0" value="1" step="0.001" aria-label="Weight">
+            <button class="btn btn-outline-danger rounded-0" type="button">X</button>
+        </div>
         <div id="input_container">
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Label" aria-label="Label">
-                <input type="number" class="form-control" value="1" step="0.001" placeholder="Weight" aria-label="Weight">
-                <button class="btn btn-outline-danger" type="button">X</button>
-            </div>
         </div>
         <button id="add_input_btn" class="btn btn-outline-primary mt-3" type="button">+</button>
         <br>
         <div class="input-group mt-3">
-            <button id="gen_btn" class="btn btn-outline-success" type="button">Generate Random</button>
-            <div id="gen_result">Result will be shown here</div>
+            <button id="rand_btn" class="btn btn-outline-success" type="button" style="font-size: small;">Generate Random</button>
+            <button id="dstb_btn" class="btn btn-outline-success" type="button" style="font-size: small;">Generate Distribution</button>
         </div>
+        <div id="dstb_result" class="mt-3">Distribution: </div>
         <br>
-        <button id="dstb_btn" class="btn btn-outline-success mt-3" type="button">Generate Distribution</button>
     </div>
 </body>
+
+<script type="module" src="/js/weighted-rng.js"></script>
 
 </html>
