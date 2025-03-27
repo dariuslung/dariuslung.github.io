@@ -32,18 +32,18 @@ const rand_btn = document.getElementById("rand_btn");
 const rand_result = document.getElementById("rand_result");
 rand_btn.addEventListener("click", () => {
     const inputs = input_container.children;
-    // Reset colours
-    let total = 0;
+    let total = .0;
     Array.from(inputs).forEach(input => input.querySelectorAll('input').forEach(input => {
+        // Reset colours
         input.classList.remove("bg-success", "text-light", "placeholder-light");
         if (input.name === "weight") {
-            total += parseInt(input.value);
+            total += parseFloat(input.value);
         }
     }));
     const rng = Math.floor(Math.random() * total);
-    let sum = 0;
+    let sum = .0;
     for (let i = 0; i < inputs.length; i++) {
-        sum += parseInt(inputs[i].querySelector('input[name="weight"]').value);
+        sum += parseFloat(inputs[i].querySelector('input[name="weight"]').value);
         if (rng < sum) {
             // Highlight the selected input
             inputs[i].querySelectorAll('input').forEach(input => input.classList.add("bg-success", "text-light", "placeholder-light"));
