@@ -3,6 +3,7 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 const sample_input = document.getElementById("sample_input");
 const input_container = document.getElementById("input_container");
 
+// Add input
 function add_input() {
     const count = input_container.children.length;
     const new_input = sample_input.cloneNode(true);
@@ -13,12 +14,17 @@ function add_input() {
     input_container.appendChild(new_input);
 }
 
+const add_input_btn = document.getElementById("add_input_btn");
+add_input_btn.addEventListener("click", add_input);
+
+// Remove input
 function remove_input(event) {
     const input = event.target.parentElement;
     input.remove();
     reassign_id();
 }
 
+// Reassign id and placeholder
 function reassign_id() {
     const inputs = input_container.children;
     for (let i = 0; i < inputs.length; i++) {
@@ -26,9 +32,6 @@ function reassign_id() {
         inputs[i].querySelector('input[name="label"]').placeholder = `Label ${i+1}`;
     }
 }
-
-const add_input_btn = document.getElementById("add_input_btn");
-add_input_btn.addEventListener("click", add_input);
 
 // Only accept positive weight
 function check_negative_weight() {
@@ -40,6 +43,7 @@ function check_negative_weight() {
     });
 }
 
+// Generate random number
 const rand_btn = document.getElementById("rand_btn");
 rand_btn.addEventListener("click", () => {
     check_negative_weight();
@@ -64,11 +68,54 @@ rand_btn.addEventListener("click", () => {
     }
 });
 
+// Distribution
 const dstb_btn = document.getElementById("dstb_btn");
 const dstb_container = document.getElementById("dstb_container");
+
+// Declare the chart dimensions and margins.
+const static_width = 640;
+const static_height = 400;
+const width = dstb_container.clientWidth;
+const height = width * static_height / static_width;
+const marginTop = 20;
+const marginRight = 20;
+const marginBottom = 30;
+const marginLeft = 40;
+const sample_size = 10000;
+
+// Declare the x (horizontal position) scale.
+const x = d3.scaleBand()
+.domain([])
+.range([marginLeft, width - marginRight])
+.padding([0.1]);
+
+// Declare the y (vertical position) scale.
+const y = d3.scaleLinear()
+.domain([0, sample_size])
+.range([height - marginBottom, marginTop]);
+
+// Create the SVG container.
+const svg = d3.create("svg")
+.attr("width", width)
+.attr("height", height);
+
+// Add the x-axis.
+svg.append("g")
+.attr("transform", `translate(0,${height - marginBottom})`)
+.call(d3.axisBottom(x));
+
+// Add the y-axis.
+svg.append("g")
+.attr("transform", `translate(${marginLeft},0)`)
+.call(d3.axisLeft(y));
+
+// Append the SVG element.
+dstb_container.append(svg.node());
+
+// Generate distribution
 dstb_btn.addEventListener("click", () => {
     if (dstb_container.children.length > 0) {
-        dstb_container.firstChild.remove();
+        d3.selectAll("g > *").remove()
     }
     check_negative_weight();
     // Random 10000 times
@@ -104,32 +151,19 @@ dstb_btn.addEventListener("click", () => {
             else left = target + 1;
         }
     }
-    // Declare the chart dimensions and margins.
-    const static_width = 640;
-    const static_height = 400;
-    const width = dstb_container.clientWidth;
-    const height = width * static_height / static_width;
-    const marginTop = 20;
-    const marginRight = 20;
-    const marginBottom = 30;
-    const marginLeft = 40;
 
     // Declare the x (horizontal position) scale.
     const labels = Array.from(data).map(d => d.label);
     const x = d3.scaleBand()
     .domain(labels)
-    .range([marginLeft, width - marginRight]);
+    .range([marginLeft, width - marginRight])
+    .padding([0.1]);
 
     // Declare the y (vertical position) scale.
     const y = d3.scaleLinear()
     .domain([0, d3.max(data, d => d.frequency)]).nice()
     .range([height - marginBottom, marginTop]);
-
-    // Create the SVG container.
-    const svg = d3.create("svg")
-    .attr("width", width)
-    .attr("height", height);
-
+    
     // Append the bars.
     svg.append("g")
     .attr("class", "bars")
@@ -151,9 +185,6 @@ dstb_btn.addEventListener("click", () => {
     svg.append("g")
     .attr("transform", `translate(${marginLeft},0)`)
     .call(d3.axisLeft(y));
-
-    // Append the SVG element.
-    dstb_container.append(svg.node());
 });
 
 // Add first input by default

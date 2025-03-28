@@ -47,7 +47,7 @@
     </nav>
 
     <div class="content">
-        <h2 class="pb-2">Weighted RNG</h2>
+        <h1 class="pb-2">Weighted RNG</h1>
         <p>Only positive weights allowed</p>
         <div id="sample_input" class="input-group collapse">
             <input type="text" name="label" class="form-control rounded-0" placeholder="Label" aria-label="Label">
@@ -64,6 +64,33 @@
         </div>
         <div id="dstb_container" class="mt-3"></div>
         <br>
+        <h2>Implementation</h2><hr>
+        <p>
+            <h3>Generate Random</h3>
+            Only one random number is required to determine the index of selected label, therefore the approach is a simple algorithm with pseudocode:
+            <br><br>
+            <code>
+                1. Get total of all weights.<br>
+                2. Generate a random number between 0 and total of weights.<br>
+                3. For each label, cumulative sum its weight and check if random number is less than the sum.
+            </code>
+            <br><br>
+            The time complexity of this approach is O(n) where n is the number of labels, and the extra space complexity is O(1).
+        </p>
+        <p>
+            <h3>Generate Distribution</h3>
+            10000 is chosen as sample size, but using the same algorithm as above would have a worst case time complexity of O(s*n) where s is the sample size and n is the number of labels. Therefore, a better approach is to accumulate values in an array and perform a binary search for each random number generated.
+            <br><br>
+            <code>
+                1. Iterate and cumulative sum for each weight, record in array.<br>
+                2. Generate a random number between 0 and total of weights.<br>
+                3. Perform binary search on the array of cumulative sums to determine the index of selected label.<br>
+                4. Repeat step 3 for a total of sample size.
+            </code>
+            <br><br>
+            The time complexity of this approach is O(s*log(n)) where s is the sample size and n is the number of labels. The extra space complexity is O(n).
+        </p>
+
     </div>
 </body>
 
