@@ -37,7 +37,7 @@
 <body>
     <nav class="navbar navbar-expand-md navbar-light">
         <div id="navbar_container" class="container">
-            <a class="navbar-brand no_select">
+            <a class="navbar-brand" href="/">
                 Darius Lung
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-label="Toggle navigation">
@@ -70,11 +70,12 @@
             Only one random number is required to determine the index of selected label, therefore the approach is a simple algorithm with pseudocode:
             <br><br>
             <code>
-                1. Get total of all weights.<br>
-                2. Generate a random number between 0 and total of weights.<br>
-                3. For each label, cumulative sum its weight and check if random number is less than the sum.
+                <ol>
+                    <li>Get total of all weights.</li>
+                    <li>Generate a random number between 0 and total of weights.</li>
+                    <li>For each label, cumulative sum its weight and check if random number is less than the sum.</li>
+                </ol>
             </code>
-            <br><br>
             The time complexity of this approach is O(n) where n is the number of labels, and the extra space complexity is O(1).
         </p>
         <p>
@@ -82,12 +83,13 @@
             10000 is chosen as sample size, but using the same algorithm as above would have a worst case time complexity of O(s*n) where s is the sample size and n is the number of labels. Therefore, a better approach is to accumulate values in an array and perform a binary search for each random number generated.
             <br><br>
             <code>
-                1. Iterate and cumulative sum for each weight, record in array.<br>
-                2. Generate a random number between 0 and total of weights.<br>
-                3. Perform binary search on the array of cumulative sums to determine the index of selected label.<br>
-                4. Repeat step 3 for a total of sample size.
+                <ol>
+                    <li>Iterate and cumulative sum for each weight, record in array.</li>
+                    <li>Generate a random number between 0 and total of weights.</li>
+                    <li>Perform binary search on the array of cumulative sums to determine the index of selected label.</li>
+                    <li>Repeat step 3 for a total of sample size.</li>
+                </ol>
             </code>
-            <br><br>
             The time complexity of this approach is O(s*log(n)) where s is the sample size and n is the number of labels. The extra space complexity is O(n).
         </p>
 
