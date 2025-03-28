@@ -29,7 +29,7 @@ function reassign_id() {
     const inputs = input_container.children;
     for (let i = 0; i < inputs.length; i++) {
         inputs[i].id = `input_${i}`;
-        inputs[i].querySelector('input[name="label"]').placeholder = `Label ${i+1}`;
+        inputs[i].querySelector('input[name="label"]').placeholder = `Label ${i}`;
     }
 }
 
