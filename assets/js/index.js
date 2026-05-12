@@ -12,7 +12,11 @@ if (sliderEl && typeof Carousel !== "undefined") {
     const about_carousel = new Carousel(sliderEl, {
         infinite: true,
         center: true,
-        slidesPerPage: 1
-        // Removed 'transition: false' and 'updateMetrics' as CSS handles the layout statically now
-    });
+        slidesPerPage: 1,
+        Autoplay: {
+            timeout: 6000,
+            pauseOnHover: true,
+            showProgress: false
+        }
+    },{ Autoplay });
 }
