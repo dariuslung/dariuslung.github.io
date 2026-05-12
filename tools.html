@@ -1,49 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
+---
+layout: default
+title: Tools
+---
 
-<head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Tools</title>
-    <link rel="icon" href="/img/favicon.svg" type="image/x-icon">
-    
-    <!-- Bootstrap 5.3.3 -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<div class="mb-8">
+    <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white transition-colors duration-300 mb-2">Tools</h1>
+    <p class="text-lg text-gray-600 dark:text-gray-400 transition-colors duration-300">A collection of custom utilities and mini-apps.</p>
+</div>
 
-    <!-- Load modules -->
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $.get('/modules/navbar.html', function(data){
-                content = data;
-                $('#navbar_container').append(content);
-            });
-        });
-    </script>
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="/css/elements.css">
-    <link rel="stylesheet" href="/css/behaviour.css">
-</head>
-
-<body>
-    <nav class="navbar navbar-expand-md navbar-light">
-        <div id="navbar_container" class="container">
-            <a class="navbar-brand" href="/">
-                Darius Lung
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-        </div>
-    </nav>
-
-    <div class="content">
-        <h2 class="pb-2">Tools</h2>
-        <a class="url-no-color" href="/tools/weighted-rng.html">Weighted RNG</a>
-    </div>
-</body>
-
-</html>
+<div class="grid gap-4">
+    <a href="/tools/weighted-rng.html" class="block p-6 rounded-xl border border-gray-200 dark:border-gray-800 hover:border-blue-500 dark:hover:border-blue-500 bg-gray-50 dark:bg-gray-800/50 hover:shadow-md transition-all duration-300 group">
+        <h3 class="text-xl font-semibold mb-1 text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">Weighted RNG</h3>
+        <p class="text-gray-500 dark:text-gray-400 text-sm transition-colors duration-300">A tool to generate random outcomes based on weighted probabilities.</p>
+    </a>
+</div>
