@@ -7,16 +7,22 @@ fancybox: true
 <div class="flex justify-center pb-8 pt-4">
     <div class="relative group cursor-pointer">
         
-        <div class="absolute -inset-1 rounded-full blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-r from-blue-500 to-purple-500 z-0"></div>
+        <div class="absolute -inset-1 rounded-full blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-r from-slate-300 to-slate-400 dark:from-slate-600 dark:to-slate-500 z-0"></div>
 
         <div class="relative p-[3px] rounded-full overflow-hidden flex items-center justify-center shadow-lg z-10 transition-colors duration-300">
             
             <div class="absolute w-[300%] h-[300%] z-0 
                 animate-[spin_4s_linear_infinite] 
+
+                /* Base State */
                 bg-[conic-gradient(from_0deg,transparent_10%,#cbd5e1_90%,#cbd5e1_100%)] 
                 dark:bg-[conic-gradient(from_0deg,transparent_10%,#475569_90%,#475569_100%)] 
+
+                /* Hover State */
                 group-hover:animate-[spin_1.5s_linear_infinite] 
-                group-hover:bg-[conic-gradient(from_0deg,transparent_20%,#3b82f6_60%,#c084fc_100%)] 
+                group-hover:bg-[conic-gradient(from_0deg,transparent_20%,#64748b_60%,#0f172a_100%)] 
+                dark:group-hover:bg-[conic-gradient(from_0deg,transparent_20%,#94a3b8_60%,#f8fafc_100%)]
+
                 transition-all duration-500">
             </div>
 
@@ -32,7 +38,8 @@ fancybox: true
     <h2 class="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white transition-colors duration-300">About Me</h2>
 </div>
 
-<p class="text-base text-gray-700 dark:text-gray-300 leading-relaxed text-justify mb-8 transition-colors duration-300">    Heyo I'm Darius Lung. My curiosity for technology led me to experiment early on, from building a PC to flashing custom Android kernels, and customizing operating systems to my liking. These experiences sparked the little engineer in me and shaped my interest in computer science.
+<p class="text-base text-gray-700 dark:text-gray-300 leading-relaxed mb-8 transition-colors duration-300">
+    Heyo I'm Darius Lung. My curiosity for technology led me to experiment early on, from building a PC to flashing custom Android kernels, and customizing operating systems to my liking. These experiences sparked the little engineer in me and shaped my interest in computer science.
     <br><br>
     My hobbies range from badminton and gaming to exploring new food, appreciating good films, and enjoying high-quality audio (sensitive ears = equipment = $$$ D:). Academically, my focus is on networked systems and collective communication. I'm always open to discussing new opportunities, challenges, and collaborations, so feel free to reach out with any inquiries.
 </p>
