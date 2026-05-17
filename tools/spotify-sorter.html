@@ -1,0 +1,52 @@
+---
+layout: default
+title: Spotify Playlist Sorter
+permalink: /tools/spotify-sorter/
+---
+
+<div class="max-w-2xl mx-auto" id="app-container">
+    <div class="mb-8 border-b border-gray-200 dark:border-gray-800 pb-6">
+        <h1 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 mb-2">Playlist Sorter</h1>
+        <p class="text-gray-600 dark:text-gray-400">Sort your Spotify playlists by the true original release date using open metadata from MusicBrainz.</p>
+    </div>
+
+    <div id="section-login" class="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-6 border border-gray-100 dark:border-gray-800 mb-6 transition-opacity">
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Connect to Spotify</h2>
+        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Securely authenticate with your Spotify account to view and organize your playlists.</p>
+        
+        <button id="btn-login" class="px-6 py-2 bg-[#1DB954] hover:bg-[#1ed760] text-white font-bold rounded-lg transition-colors whitespace-nowrap">
+            Login with Spotify
+        </button>
+    </div>
+
+    <div id="section-playlists" class="hidden">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Your Playlists</h2>
+            <div class="flex items-center gap-4">
+                <button id="btn-refresh" class="text-sm font-medium text-[#1DB954] hover:text-[#1ed760] transition-colors">Refresh</button>
+                <button id="btn-logout" class="text-sm text-gray-500 hover:text-red-500 dark:text-gray-400 dark:hover:text-red-400 transition-colors">Disconnect</button>
+            </div>
+        </div>
+        <div id="playlists-container" class="flex flex-col gap-3 pr-2">
+            </div>
+    </div>
+
+    <div id="section-progress" class="hidden bg-gray-50 dark:bg-gray-800/50 rounded-xl p-6 border border-gray-100 dark:border-gray-800">
+        <h2 id="progress-title" class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Sorting in progress...</h2>
+        <p id="progress-status" class="text-sm text-gray-600 dark:text-gray-400 mb-6">Initializing data fetch...</p>
+        
+        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 mb-6 overflow-hidden">
+            <div id="progress-bar" class="bg-[#1DB954] h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
+        </div>
+
+        <button id="btn-cancel" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white text-sm font-semibold rounded-lg transition-colors">
+            Cancel Sort
+        </button>
+        
+        <button id="btn-back" class="hidden px-4 py-2 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-900 dark:text-white text-sm font-semibold rounded-lg transition-colors">
+            Back to Playlists
+        </button>
+    </div>
+</div>
+
+<script src="{{ '/assets/js/spotify-sorter.js' | relative_url }}"></script>
