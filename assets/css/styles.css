@@ -1549,6 +1549,10 @@ video {
     flex-wrap: nowrap;
   }
 
+  .sm\:items-center {
+    align-items: center;
+  }
+
   .sm\:p-8 {
     padding: 2rem;
   }

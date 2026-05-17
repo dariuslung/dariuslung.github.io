@@ -5,6 +5,7 @@ const SPOTIFY_CLIENT_ID = "07b4020c7f424e0dac131254838bdbe0";
 // --- State Management ---
 let accessToken = null;
 let isCancelled = false;
+let cachedPlaylists = [];
 
 // Dynamically grab the current URL to use as the redirect URI
 // Ensure this URL is whitelisted in your Spotify Developer Dashboard!
@@ -159,6 +160,12 @@ document.getElementById('btn-back').addEventListener('click', () => {
     secPlaylists.classList.remove('hidden');
 });
 
+document.getElementById('playlist-sort-select').addEventListener('change', () => {
+    if (cachedPlaylists.length > 0) {
+        renderPlaylists();
+    }
+});
+
 
 // --- Spotify API Layer ---
 async function fetchSpotify(endpoint, options = {}) {
@@ -199,47 +206,71 @@ async function showPlaylists() {
 
     try {
         const data = await fetchSpotify('/me/playlists?limit=50');
-        container.innerHTML = '';
+        // Cache the raw data, filtering out nulls
+        cachedPlaylists = data.items.filter(Boolean);
         
-        data.items.forEach(pl => {
-            if(!pl) return;
-            
-            const el = document.createElement('div');
-            el.className = 'flex justify-between items-center p-4 bg-white dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700';
-            el.innerHTML = `
-                <div>
-                    <div class="font-semibold text-gray-900 dark:text-gray-100">${pl.name}</div>
-                    <div class="text-xs text-gray-500 dark:text-gray-400">${pl.tracks.total} tracks</div>
-                </div>
-                <div class="flex gap-2 flex-wrap sm:flex-nowrap justify-end mt-2 sm:mt-0">
-                    <select class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-sm rounded-md px-2 py-1 text-gray-900 dark:text-gray-100 outline-none">
-                        <option value="date">Release Date</option>
-                        <option value="name">Track Name</option>
-                        <option value="artist">Artist Name</option>
-                    </select>
-                    <select class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-sm rounded-md px-2 py-1 text-gray-900 dark:text-gray-100 outline-none">
-                        <option value="asc">Asc</option>
-                        <option value="desc">Desc</option>
-                    </select>
-                    <button class="btn-sort px-3 py-1 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-sm font-semibold rounded-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors">
-                        Sort
-                    </button>
-                </div>
-            `;
-            
-            const selects = el.querySelectorAll('select');
-            el.querySelector('.btn-sort').addEventListener('click', () => {
-                startSortProcess(pl.id, pl.name, selects[0].value, selects[1].value);
-            });
-            
-            container.appendChild(el);
-        });
+        // Reset the sort dropdown to default upon fresh load
+        document.getElementById('playlist-sort-select').value = 'default';
+        
+        renderPlaylists();
     } catch (e) {
         console.error(e);
         if (e.message !== "Unauthorized") {
             container.innerHTML = '<p class="text-red-500">Failed to load playlists.</p>';
         }
     }
+}
+
+function renderPlaylists() {
+    const container = document.getElementById('playlists-container');
+    container.innerHTML = '';
+
+    const sortOption = document.getElementById('playlist-sort-select').value;
+    
+    // Create a shallow copy to sort without mutating the original fetch order
+    let listToRender = [...cachedPlaylists];
+
+    if (sortOption === 'name-asc') {
+        listToRender.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sortOption === 'name-desc') {
+        listToRender.sort((a, b) => b.name.localeCompare(a.name));
+    } else if (sortOption === 'tracks-desc') {
+        listToRender.sort((a, b) => b.tracks.total - a.tracks.total);
+    } else if (sortOption === 'tracks-asc') {
+        listToRender.sort((a, b) => a.tracks.total - b.tracks.total);
+    }
+
+    listToRender.forEach(pl => {
+        const el = document.createElement('div');
+        el.className = 'flex justify-between items-center p-4 bg-white dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700';
+        el.innerHTML = `
+            <div>
+                <div class="font-semibold text-gray-900 dark:text-gray-100">${pl.name}</div>
+                <div class="text-xs text-gray-500 dark:text-gray-400">${pl.tracks.total} tracks</div>
+            </div>
+            <div class="flex gap-2 flex-wrap sm:flex-nowrap justify-end mt-2 sm:mt-0">
+                <select class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-sm rounded-md px-2 py-1 text-gray-900 dark:text-gray-100 outline-none">
+                    <option value="date">Release Date</option>
+                    <option value="name">Track Name</option>
+                    <option value="artist">Artist Name</option>
+                </select>
+                <select class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-sm rounded-md px-2 py-1 text-gray-900 dark:text-gray-100 outline-none">
+                    <option value="asc">Asc</option>
+                    <option value="desc">Desc</option>
+                </select>
+                <button class="btn-sort px-3 py-1 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-sm font-semibold rounded-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors">
+                    Sort
+                </button>
+            </div>
+        `;
+        
+        const selects = el.querySelectorAll('select');
+        el.querySelector('.btn-sort').addEventListener('click', () => {
+            startSortProcess(pl.id, pl.name, selects[0].value, selects[1].value);
+        });
+        
+        container.appendChild(el);
+    });
 }
 
 
