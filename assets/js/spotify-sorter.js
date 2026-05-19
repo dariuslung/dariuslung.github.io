@@ -242,23 +242,23 @@ function renderPlaylists() {
 
     listToRender.forEach(pl => {
         const el = document.createElement('div');
-        el.className = 'flex justify-between items-center p-4 bg-white dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700';
+        el.className = 'flex justify-between items-center p-4 bg-white dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors duration-300';
         el.innerHTML = `
             <div>
-                <div class="font-semibold text-gray-900 dark:text-gray-100">${pl.name}</div>
-                <div class="text-xs text-gray-500 dark:text-gray-400">${pl.tracks.total} tracks</div>
+                <div class="font-semibold text-gray-900 dark:text-gray-100 transition-colors duration-300">${pl.name}</div>
+                <div class="text-xs text-gray-500 dark:text-gray-400 transition-colors duration-300">${pl.tracks.total} tracks</div>
             </div>
             <div class="flex gap-2 flex-wrap sm:flex-nowrap justify-end mt-2 sm:mt-0">
-                <select class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-sm rounded-md px-2 py-1 text-gray-900 dark:text-gray-100 outline-none">
+                <select class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-sm rounded-md px-2 py-1 text-gray-900 dark:text-gray-100 outline-none transition-colors duration-300">
                     <option value="date">Release Date</option>
                     <option value="name">Track Name</option>
                     <option value="artist">Artist Name</option>
                 </select>
-                <select class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-sm rounded-md px-2 py-1 text-gray-900 dark:text-gray-100 outline-none">
+                <select class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-sm rounded-md px-2 py-1 text-gray-900 dark:text-gray-100 outline-none transition-colors duration-300">
                     <option value="asc">Asc</option>
                     <option value="desc">Desc</option>
                 </select>
-                <button class="btn-sort px-3 py-1 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-sm font-semibold rounded-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors">
+                <button class="btn-sort px-3 py-1 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-sm font-semibold rounded-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors duration-300">
                     Sort
                 </button>
             </div>
