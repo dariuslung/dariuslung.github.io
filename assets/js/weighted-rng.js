@@ -93,12 +93,12 @@ const dstb_btn = document.getElementById("dstb_btn");
 const dstb_container = document.getElementById("dstb_container");
 
 const width = 800; 
-const height = 350; // slightly shorter for a sleeker look
+const height = 350; 
 const marginTop = 20;
 const marginRight = 20;
-const marginBottom = 30;
-const marginLeft = 40;
-const sample_size = 10000;
+const marginBottom = 70;
+const marginLeft = 60;
+const sample_size = 1000000;
 
 if(dstb_btn) dstb_btn.addEventListener("click", () => {
     if (dstb_container.children.length > 0) {
@@ -148,13 +148,13 @@ if(dstb_btn) dstb_btn.addEventListener("click", () => {
     const x = d3.scaleBand()
         .domain(labels)
         .range([marginLeft, width - marginRight])
-        .padding([0.2]); // Increased padding for sleeker bars
+        .padding([0.2]); 
 
     const y = d3.scaleLinear()
         .domain([0, d3.max(data, d => d.frequency)]).nice()
         .range([height - marginBottom, marginTop]);
     
-    // Draw Bars with gradient-like solid color
+    // Draw Bars with animation
     svg.append("g")
         .attr("fill", "#4f46e5") // Tailwind indigo-600
         .selectAll("rect")
@@ -172,10 +172,16 @@ if(dstb_btn) dstb_btn.addEventListener("click", () => {
         .attr("transform", `translate(0,${height - marginBottom})`)
         .call(d3.axisBottom(x).tickSizeOuter(0));
 
+    // Rotate X-axis labels to prevent overlapping
+    xAxis.selectAll("text")
+        .attr("transform", "translate(-10, 0) rotate(-45)")
+        .style("text-anchor", "end");
+
     // Y-axis
     const yAxis = svg.append("g")
         .attr("transform", `translate(${marginLeft},0)`)
-        .call(d3.axisLeft(y).ticks(5).tickSizeOuter(0)); // Less cluttered ticks
+        // Format ticks using ~s (e.g., 1000000 -> 1M) to reduce width
+        .call(d3.axisLeft(y).ticks(5).tickFormat(d3.format("~s")).tickSizeOuter(0)); 
 
     // Style axes for Dark Mode compatibility
     svg.selectAll(".domain").attr("stroke", "currentColor").attr("opacity", "0.2");
