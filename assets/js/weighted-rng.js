@@ -47,10 +47,10 @@ function check_negative_weight() {
     });
 }
 
-// PREMIUM HIGHLIGHT CLASSES
+// Highlight classes
 const defaultClasses = ["border-gray-200", "dark:border-gray-600", "bg-gray-50", "dark:bg-gray-900"];
-// We use a blue border and soft blue background for the winner so text remains readable
-const highlightClasses = ["border-blue-500", "dark:border-blue-500", "bg-blue-50", "dark:bg-blue-900/20", "ring-1", "ring-blue-500"];
+// We use a green border and soft green background for the winner so text remains readable
+const highlightClasses = ["border-green-500", "dark:border-green-500", "bg-green-50", "dark:bg-green-900/20", "ring-1", "ring-green-500"];
 
 // Generate random number
 const rand_btn = document.getElementById("rand_btn");

@@ -242,19 +242,19 @@ function renderPlaylists() {
 
     listToRender.forEach(pl => {
         const el = document.createElement('div');
-        el.className = 'flex justify-between items-center p-4 bg-white dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors duration-300';
+        el.className = 'flex justify-between items-center p-4 bg-white dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700 ';
         el.innerHTML = `
             <div>
-                <div class="font-semibold text-gray-900 dark:text-gray-100 transition-colors duration-300">${pl.name}</div>
-                <div class="text-xs text-gray-500 dark:text-gray-400 transition-colors duration-300">${pl.tracks.total} tracks</div>
+                <div class="font-semibold text-gray-900 dark:text-gray-100">${pl.name}</div>
+                <div class="text-xs text-gray-500 dark:text-gray-400">${pl.tracks.total} tracks</div>
             </div>
             <div class="flex gap-2 flex-wrap sm:flex-nowrap justify-end mt-2 sm:mt-0">
-                <select class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-sm rounded-md px-2 py-1 text-gray-900 dark:text-gray-100 outline-none transition-colors duration-300">
+                <select class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-sm rounded-md px-2 py-1 text-gray-900 dark:text-gray-100 outline-none">
                     <option value="date">Release Date</option>
                     <option value="name">Track Name</option>
                     <option value="artist">Artist Name</option>
                 </select>
-                <select class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-sm rounded-md px-2 py-1 text-gray-900 dark:text-gray-100 outline-none transition-colors duration-300">
+                <select class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-sm rounded-md px-2 py-1 text-gray-900 dark:text-gray-100 outline-none">
                     <option value="asc">Asc</option>
                     <option value="desc">Desc</option>
                 </select>
@@ -320,7 +320,7 @@ async function startSortProcess(playlistId, playlistName, sortBy, order) {
     document.getElementById('btn-back').classList.add('hidden');
     
     const bar = document.getElementById('progress-bar');
-    bar.className = 'bg-[#1DB954] h-3 rounded-full transition-all duration-300';
+    bar.className = 'bg-[#1DB954] h-3 rounded-full ';
     bar.style.width = '0%';
     document.getElementById('progress-title').innerText = `Sorting: ${playlistName}`;
 

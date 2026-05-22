@@ -5,14 +5,14 @@ permalink: /tools/spotify-sorter/
 ---
 
 <div class="max-w-4xl mx-auto" id="app-container">
-    <div class="mb-8 border-b border-gray-200 dark:border-gray-800 pb-6 transition-colors duration-300">
-        <h1 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 mb-2 transition-colors duration-300">Spotify Playlist Sorter</h1>
-        <p class="text-gray-600 dark:text-gray-400 transition-colors duration-300">Sort your Spotify playlists by their true original release dates using open metadata from MusicBrainz.</p>
+    <div class="mb-8 border-b border-gray-200 dark:border-gray-800 pb-6">
+        <h1 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 mb-2">Spotify Playlist Sorter</h1>
+        <p class="text-gray-600 dark:text-gray-400">Sort your Spotify playlists by their true original release dates using open metadata from MusicBrainz.</p>
     </div>
 
-    <div id="section-login" class="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-6 border border-gray-100 dark:border-gray-800 mb-6 transition-all duration-300">
-        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4 transition-colors duration-300">Connect to Spotify</h2>
-        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 transition-colors duration-300">Securely authenticate with your Spotify account to view and organize your playlists.</p>
+    <div id="section-login" class="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-6 border border-gray-100 dark:border-gray-800 mb-6">
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Connect to Spotify</h2>
+        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Securely authenticate with your Spotify account to view and organize your playlists.</p>
         
         <button id="btn-login" class="px-6 py-2 bg-[#1DB954] hover:bg-[#1ed760] text-white font-bold rounded-lg transition-colors whitespace-nowrap">
             Login with Spotify
@@ -21,9 +21,9 @@ permalink: /tools/spotify-sorter/
 
     <div id="section-playlists" class="hidden">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
-            <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 transition-colors duration-300">Your Playlists</h2>
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Your Playlists</h2>
             <div class="flex items-center gap-3 flex-wrap">
-                <select id="playlist-sort-select" class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-sm rounded-md px-2 py-1 text-gray-900 dark:text-gray-100 outline-none cursor-pointer transition-colors duration-300">
+                <select id="playlist-sort-select" class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-sm rounded-md px-2 py-1 text-gray-900 dark:text-gray-100 outline-none cursor-pointer">
                     <option value="default">Default Order</option>
                     <option value="name-asc">Name (A-Z)</option>
                     <option value="name-desc">Name (Z-A)</option>
@@ -39,12 +39,12 @@ permalink: /tools/spotify-sorter/
             </div>
     </div>
 
-    <div id="section-progress" class="hidden bg-gray-50 dark:bg-gray-800/50 rounded-xl p-6 border border-gray-100 dark:border-gray-800 transition-colors duration-300">
-        <h2 id="progress-title" class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2 transition-colors duration-300">Sorting in progress...</h2>
-        <p id="progress-status" class="text-sm text-gray-600 dark:text-gray-400 mb-6 transition-colors duration-300">Initializing data fetch...</p>
+    <div id="section-progress" class="hidden bg-gray-50 dark:bg-gray-800/50 rounded-xl p-6 border border-gray-100 dark:border-gray-800">
+        <h2 id="progress-title" class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Sorting in progress...</h2>
+        <p id="progress-status" class="text-sm text-gray-600 dark:text-gray-400 mb-6">Initializing data fetch...</p>
         
         <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 mb-6 overflow-hidden">
-            <div id="progress-bar" class="bg-[#1DB954] h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
+            <div id="progress-bar" class="bg-[#1DB954] h-3 rounded-full" style="width: 0%"></div>
         </div>
 
         <button id="btn-cancel" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white text-sm font-semibold rounded-lg transition-colors duration-300">
