@@ -1,0 +1,33 @@
+## OS
+.DS_Store
+Thumbs.db
+
+## Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+## Ruby / Bundler / Jekyll
+.bundle/
+vendor/bundle/
+vendor/cache/
+vendor/gems/
+vendor/ruby/
+
+# Jekyll build output
+_site/
+.jekyll-cache/
+.sass-cache/
+.jekyll-metadata
+
+## Environment files
+.env
+.env.*
+
+## IDE/editor
+.vscode/
+.idea/
+*.swp
+*.swo
