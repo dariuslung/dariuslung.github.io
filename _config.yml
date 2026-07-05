@@ -1,0 +1,11 @@
+title: Darius Lung
+description: Portfolio and tools
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://dariuslung.github.io" # the base hostname & protocol
+exclude:
+  - node_modules/
+  - package.json
+  - package-lock.json
+  - tailwind.config.js
+  - postcss.config.js
+  - .github/

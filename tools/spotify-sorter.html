@@ -1,0 +1,68 @@
+---
+layout: default
+title: Spotify Playlist Sorter
+permalink: /tools/spotify-sorter/
+---
+
+<div class="max-w-4xl mx-auto" id="app-container">
+    <div class="mb-8 border-b border-gray-200 dark:border-gray-800 pb-6 flex items-center gap-4">
+        <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-[#1DB954] text-white shrink-0 shadow-sm">
+            <svg class="w-6 h-6 fill-current shrink-0 block" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <title>Spotify</title>
+                <path d="M12 0C5.376 0 0 5.376 0 12s5.376 12 12 12 12-5.376 12-12S18.624 0 12 0zm5.521 17.341c-.217.357-.68.472-1.037.254-2.837-1.733-6.408-2.126-10.613-1.164-.403.092-.806-.16-.898-.563-.092-.403.16-.806.563-.898 4.607-1.052 8.552-.6 11.731 1.344.357.218.472.68.254 1.037zm1.473-3.278c-.274.446-.856.587-1.302.313-3.246-1.995-8.196-2.574-12.036-1.408-.504.153-1.037-.133-1.19-.637-.153-.504.133-1.037.637-1.19 4.385-1.332 9.839-.687 13.578 1.62.446.274.587.856.313 1.302zm.126-3.416C15.228 8.48 8.8 8.267 5.12 9.385c-.61.185-1.252-.167-1.437-.777-.185-.61.167-1.252.777-1.437 4.232-1.285 11.336-1.035 15.892 1.671.55.327.732 1.042.405 1.592-.327.55-1.042.732-1.592.405z"/>
+            </svg>
+        </div>
+        <div>
+            <h1 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 mb-1">Spotify Playlist Sorter</h1>
+            <p class="text-gray-600 dark:text-gray-400">Sort your Spotify playlists by their true original release dates using open metadata from MusicBrainz.</p>
+        </div>
+    </div>
+
+    <div id="section-login" class="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-6 border border-gray-100 dark:border-gray-800 mb-6">
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Connect to Spotify</h2>
+        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Securely authenticate with your Spotify account to view and organize your playlists.</p>
+        
+        <button id="btn-login" class="px-6 py-2 bg-[#1DB954] hover:bg-[#1ed760] text-white font-bold rounded-lg transition-colors whitespace-nowrap">
+            Login with Spotify
+        </button>
+    </div>
+
+    <div id="section-playlists" class="hidden">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Your Playlists</h2>
+            <div class="flex items-center gap-3 flex-wrap">
+                <select id="playlist-sort-select" class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-sm rounded-md px-2 py-1 text-gray-900 dark:text-gray-100 outline-none cursor-pointer">
+                    <option value="default">Default Order</option>
+                    <option value="name-asc">Name (A-Z)</option>
+                    <option value="name-desc">Name (Z-A)</option>
+                    <option value="tracks-desc">Tracks (High-Low)</option>
+                    <option value="tracks-asc">Tracks (Low-High)</option>
+                </select>
+                
+                <button id="btn-refresh" class="text-sm font-medium text-[#1DB954] hover:text-[#1ed760] transition-colors duration-300">Refresh</button>
+                <button id="btn-logout" class="text-sm text-gray-500 hover:text-red-500 dark:text-gray-400 dark:hover:text-red-400 transition-colors duration-300">Disconnect</button>
+            </div>
+        </div>
+        <div id="playlists-container" class="flex flex-col gap-3 pr-2">
+            </div>
+    </div>
+
+    <div id="section-progress" class="hidden bg-gray-50 dark:bg-gray-800/50 rounded-xl p-6 border border-gray-100 dark:border-gray-800">
+        <h2 id="progress-title" class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Sorting in progress...</h2>
+        <p id="progress-status" class="text-sm text-gray-600 dark:text-gray-400 mb-6">Initializing data fetch...</p>
+        
+        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 mb-6 overflow-hidden">
+            <div id="progress-bar" class="bg-[#1DB954] h-3 rounded-full" style="width: 0%"></div>
+        </div>
+
+        <button id="btn-cancel" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white text-sm font-semibold rounded-lg transition-colors duration-300">
+            Cancel Sort
+        </button>
+        
+        <button id="btn-back" class="hidden px-4 py-2 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-900 dark:text-white text-sm font-semibold rounded-lg transition-colors duration-300">
+            Back to Playlists
+        </button>
+    </div>
+</div>
+
+<script src="{{ '/assets/js/spotify-sorter.js' | relative_url }}"></script>
