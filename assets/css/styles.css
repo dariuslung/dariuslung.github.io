@@ -610,6 +610,9 @@ video {
 .ml-6 {
   margin-left: 1.5rem;
 }
+.mt-1 {
+  margin-top: 0.25rem;
+}
 .mt-2 {
   margin-top: 0.5rem;
 }
@@ -639,6 +642,9 @@ video {
 }
 .h-3 {
   height: 0.75rem;
+}
+.h-3\.5 {
+  height: 0.875rem;
 }
 .h-32 {
   height: 8rem;
@@ -672,6 +678,9 @@ video {
 }
 .w-20 {
   width: 5rem;
+}
+.w-3\.5 {
+  width: 0.875rem;
 }
 .w-32 {
   width: 8rem;
@@ -1626,12 +1635,5 @@ video {
 
   .md\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-@media (min-width: 1024px) {
-
-  .lg\:text-lg {
-    font-size: 1.125rem;
-    line-height: 1.75rem;
   }
 }
