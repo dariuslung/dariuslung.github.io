@@ -258,7 +258,7 @@ function renderPlaylists() {
                     <option value="desc">Desc</option>
                     <option value="asc">Asc</option>
                 </select>
-                <button class="btn-sort px-3 py-1 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-sm font-semibold rounded-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors duration-300">
+                <button class="btn-sort px-3 py-1 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-sm font-semibold rounded-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors">
                     Sort
                 </button>
             </div>
