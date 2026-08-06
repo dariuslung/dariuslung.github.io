@@ -165,7 +165,7 @@ if(dstb_btn) dstb_btn.addEventListener("click", () => {
         .attr("height", d => y(0) - y(d.frequency))
         .attr("width", x.bandwidth())
         .attr("rx", 6) // Highly rounded corners
-        .attr("class", "opacity-90 hover:opacity-100 transition-opacity"); // Hover effect on bars
+        .attr("class", "opacity-90 hover:opacity-100"); // Hover effect on bars
 
     // X-axis
     const xAxis = svg.append("g")
