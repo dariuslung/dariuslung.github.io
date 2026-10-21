@@ -202,7 +202,7 @@ async function showPlaylists() {
     secLogin.classList.add('hidden');
     secPlaylists.classList.remove('hidden');
     const container = document.getElementById('playlists-container');
-    container.innerHTML = '<p class="text-gray-500 dark:text-gray-400">Loading playlists...</p>';
+    container.innerHTML = '<p class="text-muted">Loading playlists...</p>';
 
     try {
         const data = await fetchSpotify('/me/playlists?limit=50');
@@ -242,23 +242,23 @@ function renderPlaylists() {
 
     listToRender.forEach(pl => {
         const el = document.createElement('div');
-        el.className = 'flex justify-between items-center p-4 bg-white dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700 ';
+        el.className = 'panel flex justify-between items-center p-4 ';
         el.innerHTML = `
             <div>
-                <div class="font-semibold text-gray-900 dark:text-gray-100">${pl.name}</div>
-                <div class="text-xs text-gray-500 dark:text-gray-400">${pl.tracks.total} tracks</div>
+                <div class="font-semibold">${pl.name}</div>
+                <div class="font-mono text-xs text-muted">${pl.tracks.total} tracks</div>
             </div>
             <div class="flex gap-2 flex-wrap sm:flex-nowrap justify-end mt-2 sm:mt-0">
-                <select class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-sm rounded-md px-2 py-1 text-gray-900 dark:text-gray-100 outline-none">
+                <select class="field !py-1">
                     <option value="date">Release Date</option>
                     <option value="name">Track Name</option>
                     <option value="artist">Artist Name</option>
                 </select>
-                <select class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-sm rounded-md px-2 py-1 text-gray-900 dark:text-gray-100 outline-none">
+                <select class="field !py-1">
                     <option value="desc">Desc</option>
                     <option value="asc">Asc</option>
                 </select>
-                <button class="btn-sort px-3 py-1 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-sm font-semibold rounded-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors">
+                <button class="btn-sort btn btn-spotify !py-1 font-semibold">
                     Sort
                 </button>
             </div>
@@ -281,7 +281,7 @@ function updateProgressUI(statusText, percent, isComplete = false) {
     bar.style.width = `${percent}%`;
     
     if (isComplete) {
-        bar.classList.replace('bg-[#1DB954]', isCancelled ? 'bg-red-500' : 'bg-blue-500');
+        bar.classList.replace('bg-[#1DB954]', isCancelled ? 'bg-red-500' : 'bg-ink');
         document.getElementById('btn-cancel').classList.add('hidden');
         document.getElementById('btn-back').classList.remove('hidden');
     }
@@ -320,7 +320,7 @@ async function startSortProcess(playlistId, playlistName, sortBy, order) {
     document.getElementById('btn-back').classList.add('hidden');
     
     const bar = document.getElementById('progress-bar');
-    bar.className = 'bg-[#1DB954] h-3 rounded-full ';
+    bar.className = 'bg-[#1DB954] h-3 ';
     bar.style.width = '0%';
     document.getElementById('progress-title').innerText = `Sorting: ${playlistName}`;
 

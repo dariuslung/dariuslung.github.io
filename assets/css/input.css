@@ -101,6 +101,33 @@
   .btn-primary {
     @apply bg-signal text-on-signal border-signal;
   }
+  /* Spotify green is confined to the Spotify tool. */
+  .btn-spotify {
+    @apply bg-[#1DB954] text-on-signal border-[#1DB954];
+  }
+
+  .btn-danger {
+    @apply text-red-700 border-red-700;
+  }
+  .dark .btn-danger {
+    @apply text-red-400 border-red-400;
+  }
+
+  /* Form controls (inputs and selects). */
+  .field {
+    @apply bg-paper text-ink border border-rule px-3 py-2 text-sm rounded-none;
+  }
+  .field::placeholder {
+    @apply text-muted;
+  }
+  .field:focus {
+    @apply border-signal outline-none ring-1 ring-signal;
+  }
+
+  /* Small monospace metadata tag. */
+  .tag {
+    @apply inline-block border border-rule px-1.5 py-0.5 font-mono text-xs text-muted;
+  }
 
   @media (hover: hover) {
     .card:hover {
@@ -110,8 +137,9 @@
     .btn:hover {
       @apply border-ink;
     }
-    .btn-primary:hover {
-      @apply bg-signal;
+    .btn-primary:hover,
+    .btn-spotify:hover {
+      @apply border-ink;
     }
   }
 }

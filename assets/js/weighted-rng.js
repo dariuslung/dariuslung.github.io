@@ -48,9 +48,24 @@ function check_negative_weight() {
 }
 
 // Highlight classes
-const defaultClasses = ["border-gray-200", "dark:border-gray-600", "bg-gray-50", "dark:bg-gray-900"];
-// We use a green border and soft green background for the winner so text remains readable
-const highlightClasses = ["border-green-500", "dark:border-green-500", "bg-green-50", "dark:bg-green-900/20", "ring-1", "ring-green-500"];
+const defaultClasses = ["border-rule", "bg-paper"];
+// Accent border plus a faint accent tint for the winner so text remains readable
+const highlightClasses = ["border-signal", "bg-signal/10", "ring-1", "ring-signal"];
+
+// Winner banner
+const rng_result = document.getElementById("rng_result");
+const rng_winner = document.getElementById("rng_winner");
+const rng_prob = document.getElementById("rng_prob");
+
+function show_result(label, weight, total) {
+    rng_winner.textContent = label;
+    rng_prob.textContent = `${weight} / ${total} = ${formatPercent(weight / total)}`;
+    rng_result.classList.remove("hidden");
+}
+
+function formatPercent(fraction) {
+    return `${parseFloat((fraction * 100).toFixed(2))}%`;
+}
 
 // Generate random number
 const rand_btn = document.getElementById("rand_btn");
@@ -58,7 +73,7 @@ if(rand_btn) rand_btn.addEventListener("click", () => {
     check_negative_weight();
     const inputs = input_container.children;
     let sum = .0;
-    
+
     Array.from(inputs).forEach(input => input.querySelectorAll('.item-input').forEach(inputField => {
         // Reset classes
         inputField.classList.remove(...highlightClasses);
@@ -70,14 +85,20 @@ if(rand_btn) rand_btn.addEventListener("click", () => {
     }));
     
     // Quick guard to prevent NaN if weight is 0
-    if (sum === 0) return;
+    if (sum === 0) {
+        rng_result.classList.add("hidden");
+        return;
+    }
 
     const rng = Math.random() * sum;
     let acc = .0;
-    
+
     for (let i = 0; i < inputs.length; i++) {
-        acc += parseFloat(inputs[i].querySelector('input[name="weight"]').value);
+        const weight = parseFloat(inputs[i].querySelector('input[name="weight"]').value);
+        acc += weight;
         if (rng < acc) {
+            const label_input = inputs[i].querySelector('input[name="label"]');
+            show_result(label_input.value === "" ? label_input.placeholder : label_input.value, weight, sum);
             // Apply highlight classes to the winning inputs
             inputs[i].querySelectorAll('.item-input').forEach(inputField => {
                 inputField.classList.remove(...defaultClasses);
@@ -142,7 +163,7 @@ if(dstb_btn) dstb_btn.addEventListener("click", () => {
 
     const svg = d3.create("svg")
         .attr("viewBox", [0, 0, width, height])
-        .attr("class", "w-full h-auto font-sans text-gray-600 dark:text-gray-400");
+        .attr("class", "w-full h-auto font-mono text-muted");
 
     const labels = Array.from(data).map(d => d.label);
     const x = d3.scaleBand()
@@ -154,9 +175,13 @@ if(dstb_btn) dstb_btn.addEventListener("click", () => {
         .domain([0, d3.max(data, d => d.frequency)]).nice()
         .range([height - marginBottom, marginTop]);
     
-    // Draw Bars with animation
+    // Colours come from the CSS tokens, so the chart follows the active theme.
+    const total_samples = d3.sum(data, d => d.frequency);
+    const fmt_count = d3.format(",");
+
+    // Bars, each with a native tooltip showing the exact count and share
     svg.append("g")
-        .attr("fill", "#4f46e5") // Tailwind indigo-600
+        .style("fill", "rgb(var(--c-signal))")
         .selectAll("rect")
         .data(data)
         .join("rect")
@@ -164,8 +189,23 @@ if(dstb_btn) dstb_btn.addEventListener("click", () => {
         .attr("y", d => y(d.frequency))
         .attr("height", d => y(0) - y(d.frequency))
         .attr("width", x.bandwidth())
-        .attr("rx", 6) // Highly rounded corners
-        .attr("class", "opacity-90 hover:opacity-100"); // Hover effect on bars
+        .attr("class", "hover:opacity-80")
+        .append("title")
+        .text(d => `${d.label}: ${fmt_count(d.frequency)} (${formatPercent(d.frequency / total_samples)})`);
+
+    // Exact counts above the bars, when the bars are wide enough to fit them
+    if (x.bandwidth() >= 56) {
+        svg.append("g")
+            .style("fill", "rgb(var(--c-ink))")
+            .attr("text-anchor", "middle")
+            .attr("font-size", "12px")
+            .selectAll("text")
+            .data(data)
+            .join("text")
+            .attr("x", d => x(d.label) + x.bandwidth() / 2)
+            .attr("y", d => y(d.frequency) - 6)
+            .text(d => fmt_count(d.frequency));
+    }
 
     // X-axis
     const xAxis = svg.append("g")
@@ -186,7 +226,7 @@ if(dstb_btn) dstb_btn.addEventListener("click", () => {
     // Style axes for Dark Mode compatibility
     svg.selectAll(".domain").attr("stroke", "currentColor").attr("opacity", "0.2");
     svg.selectAll(".tick line").attr("stroke", "currentColor").attr("opacity", "0.1");
-    svg.selectAll(".tick text").attr("fill", "currentColor").attr("font-size", "13px").attr("font-weight", "500");
+    svg.selectAll(".tick text").attr("fill", "currentColor").attr("font-size", "12px");
 
     dstb_container.append(svg.node());
 });
