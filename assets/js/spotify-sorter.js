@@ -245,7 +245,7 @@ function renderPlaylists() {
         el.className = 'panel flex justify-between items-center p-4 ';
         el.innerHTML = `
             <div>
-                <div class="font-semibold">${pl.name}</div>
+                <div class="pl-name font-semibold"></div>
                 <div class="font-mono text-xs text-muted">${pl.tracks.total} tracks</div>
             </div>
             <div class="flex gap-2 flex-wrap sm:flex-nowrap justify-end mt-2 sm:mt-0">
@@ -264,6 +264,9 @@ function renderPlaylists() {
             </div>
         `;
         
+        // Playlist names are user-controlled, so set them as text rather than HTML.
+        el.querySelector('.pl-name').textContent = pl.name;
+
         const selects = el.querySelectorAll('select');
         el.querySelector('.btn-sort').addEventListener('click', () => {
             startSortProcess(pl.id, pl.name, selects[0].value, selects[1].value);
