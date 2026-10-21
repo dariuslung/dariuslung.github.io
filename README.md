@@ -11,7 +11,6 @@ A modern, static personal website.
 ### Styling & UI
 * **[Tailwind CSS](https://tailwindcss.com/):** Utility-first CSS framework for rapid, custom UI development.
 * **[PostCSS](https://postcss.org/):** Tool for transforming styles with JS plugins (handles Tailwind compilation and Autoprefixer).
-* **[Fancybox & Carousel](https://fancyapps.com/):** Lightweight JavaScript library for the image gallery and slider on the landing page.
 
 ### Data Visualization
 * **[D3.js](https://d3js.org/):** Dynamically render responsive, data-driven SVG bar charts for statistical distributions.
