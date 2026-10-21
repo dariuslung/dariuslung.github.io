@@ -3,11 +3,27 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>{{ page.title }} | {{ site.title }}</title>
-    <link rel="icon" href="/assets/img/favicon.svg" type="image/x-icon">
-    
+    <meta name="color-scheme" content="light dark"/>
+    {% assign page_title = site.title %}
+    {% unless page.url == '/' %}{% assign page_title = page.title | append: ' | ' | append: site.title %}{% endunless %}
+    {% assign page_description = page.description | default: site.description %}
+    <title>{{ page_title }}</title>
+    <meta name="description" content="{{ page_description }}"/>
+    <link rel="canonical" href="{{ page.url | absolute_url }}"/>
+
+    <meta property="og:type" content="website"/>
+    <meta property="og:site_name" content="{{ site.title }}"/>
+    <meta property="og:title" content="{{ page_title }}"/>
+    <meta property="og:description" content="{{ page_description }}"/>
+    <meta property="og:url" content="{{ page.url | absolute_url }}"/>
+    <meta property="og:image" content="{{ '/assets/img/profile.jpg' | absolute_url }}"/>
+    <meta name="twitter:card" content="summary"/>
+
+    <link rel="icon" href="{{ '/assets/img/favicon.svg' | relative_url }}" type="image/svg+xml">
+
+    <link rel="preload" href="{{ '/assets/fonts/inter-latin-wght-normal.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="{{ '/assets/css/styles.css' | relative_url }}">
-    
+
     {% if page.fancybox %}
     <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css"/>
@@ -23,18 +39,19 @@
             document.documentElement.classList.remove('dark')
         }
     </script>
-
-    <style>
-        .theme-transitioning * {
-            transition: color 300ms ease, background-color 300ms ease, border-color 300ms ease !important;
-        }
-    </style>
 </head>
 <body class="min-h-screen flex flex-col">
     {% include navbar.html %}
 
-    <main class="flex-grow w-full max-w-4xl mx-auto px-6 py-8">
+    <main class="flex-grow w-full max-w-4xl mx-auto px-6 py-10">
         {{ content }}
     </main>
+
+    <footer class="border-t border-rule">
+        <div class="max-w-4xl mx-auto px-6 py-6 flex flex-wrap items-center justify-between gap-2 text-sm text-muted">
+            <span>&copy; {{ 'now' | date: '%Y' }} {{ site.title }}</span>
+            <a class="hover:text-ink underline underline-offset-4" href="https://github.com/dariuslung/dariuslung.github.io">Source on GitHub</a>
+        </div>
+    </footer>
 </body>
 </html>

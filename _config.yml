@@ -1,5 +1,5 @@
 title: Darius Lung
-description: Portfolio and tools
+description: "Darius Lung: computer science student focused on networked systems, plus a few small web tools."
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://dariuslung.github.io" # the base hostname & protocol
 exclude:

@@ -2,8 +2,123 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('../fonts/inter-latin-wght-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/jetbrains-mono-latin-400-normal.woff2') format('woff2');
+}
+
 @layer base {
+  /* Colour tokens as space-separated RGB so Tailwind opacity modifiers work. */
+  :root {
+    --c-paper: 245 243 238;
+    --c-surface: 255 255 255;
+    --c-ink: 22 24 28;
+    --c-muted: 95 99 104;
+    --c-rule: 214 211 203;
+    --c-signal: 255 79 0;
+    --c-signal-text: 194 59 0;
+    --c-on-signal: 22 24 28;
+    color-scheme: light;
+  }
+
+  .dark {
+    --c-paper: 11 13 16;
+    --c-surface: 18 21 26;
+    --c-ink: 231 229 224;
+    --c-muted: 154 160 166;
+    --c-rule: 38 42 49;
+    --c-signal: 255 79 0;
+    --c-signal-text: 255 106 38;
+    --c-on-signal: 22 24 28;
+    color-scheme: dark;
+  }
+
   body {
-    @apply bg-slate-50 text-gray-900 transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100;
+    @apply bg-paper text-ink font-sans;
+    counter-reset: section;
+  }
+
+  :focus-visible {
+    @apply outline outline-2 outline-offset-2 outline-signal;
+  }
+}
+
+@layer components {
+  /* Numbered section heading: the index comes from a CSS counter. */
+  .section-title {
+    @apply flex items-baseline gap-3 text-2xl font-semibold tracking-tight;
+  }
+  .section-title::before {
+    counter-increment: section;
+    content: counter(section, decimal-leading-zero);
+    @apply font-mono text-sm font-normal text-muted;
+  }
+
+  .label {
+    @apply font-mono text-xs uppercase tracking-wider text-muted;
+  }
+
+  .link {
+    @apply text-signal-text underline underline-offset-4 decoration-1;
+  }
+  .link:hover {
+    @apply decoration-2;
+  }
+
+  /* Static container. */
+  .panel {
+    @apply bg-surface border border-rule;
+  }
+
+  /* Interactive container (links). Hover feedback is instant; only the press moves. */
+  .card {
+    @apply panel block;
+    transition: transform 60ms ease-out;
+  }
+  .card:active {
+    transform: translateY(1px);
+    box-shadow: 1px 1px 0 0 rgb(var(--c-ink));
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium bg-surface text-ink border border-rule;
+    transition: transform 60ms ease-out;
+  }
+  .btn:active {
+    transform: translateY(1px);
+  }
+  .btn-primary {
+    @apply bg-signal text-on-signal border-signal;
+  }
+
+  @media (hover: hover) {
+    .card:hover {
+      @apply border-ink;
+      box-shadow: 2px 2px 0 0 rgb(var(--c-ink));
+    }
+    .btn:hover {
+      @apply border-ink;
+    }
+    .btn-primary:hover {
+      @apply bg-signal;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
   }
 }
