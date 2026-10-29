@@ -1,0 +1,59 @@
+---
+layout: default
+title: Line Sorter
+description: Paste a list with one entry per line and sort it alphabetically, naturally, by length, or shuffle it.
+---
+
+<div class="max-w-4xl mx-auto">
+    <header class="mb-8 border-b border-rule pb-6 flex items-center gap-4">
+        <span class="flex items-center justify-center w-12 h-12 bg-ink text-paper shrink-0">
+            <svg class="w-6 h-6 block" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"></path></svg>
+        </span>
+        <div>
+            <h1 class="text-3xl font-semibold tracking-tight mb-1">Line Sorter</h1>
+            <p class="text-muted">Paste a list with one entry per line, then sort it.</p>
+        </div>
+    </header>
+
+    <div class="panel p-4 sm:p-6 mb-10">
+        <label for="ls_input" class="label block mb-2">Entries (one per line)</label>
+        <textarea id="ls_input" rows="12" spellcheck="false" autocomplete="off" class="field w-full font-mono resize-y" placeholder="banana&#10;Apple&#10;cherry"></textarea>
+
+        <div class="flex flex-wrap items-center justify-between gap-3 mt-2">
+            <p id="ls_count" class="font-mono text-xs text-muted">0 lines</p>
+            <div class="flex gap-2">
+                <button id="ls_undo" type="button" class="btn !py-1" disabled>Undo</button>
+                <button id="ls_copy" type="button" class="btn !py-1 hidden">Copy</button>
+            </div>
+        </div>
+
+        <div class="mt-6 pt-6 border-t border-rule grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_auto_auto] gap-4 items-end">
+            <div>
+                <label for="ls_criteria" class="label block mb-1">Sort by</label>
+                <select id="ls_criteria" class="field w-full cursor-pointer">
+                    <option value="alpha">Alphabetical</option>
+                    <option value="natural">Natural (2 before 10)</option>
+                    <option value="length">Length</option>
+                    <option value="random">Random (shuffle)</option>
+                    <option value="reverse">Reverse current order</option>
+                </select>
+            </div>
+            <div>
+                <label for="ls_order" class="label block mb-1">Order</label>
+                <select id="ls_order" class="field w-full cursor-pointer">
+                    <option value="asc">Ascending</option>
+                    <option value="desc">Descending</option>
+                </select>
+            </div>
+            <label class="flex items-center gap-2 text-sm py-2 cursor-pointer">
+                <input id="ls_dedupe" type="checkbox" class="w-4 h-4 accent-signal">
+                Remove duplicates
+            </label>
+            <button id="ls_sort" type="button" class="btn btn-primary !py-2.5 font-semibold sm:col-span-2 lg:col-span-1">Sort</button>
+        </div>
+
+        <p id="ls_note" class="text-sm text-muted mt-4 min-h-[1.25rem]" role="status" aria-live="polite"></p>
+    </div>
+</div>
+
+<script src="{{ '/assets/js/line-sorter.js' | relative_url }}"></script>
