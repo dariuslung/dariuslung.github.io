@@ -33,10 +33,13 @@ jobs:
       - name: Build Tailwind CSS
         run: npm run build:css
 
+      - name: Check committed styles.css is up to date
+        run: git diff --exit-code assets/css/styles.css
+
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.1' # Adjust based on your local ruby version
+          ruby-version: '3.4' # Gemfile.lock is bundled with Bundler 4, which needs Ruby >= 3.2
           bundler-cache: true
           cache-version: 0
 
