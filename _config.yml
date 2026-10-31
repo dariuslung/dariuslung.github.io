@@ -10,3 +10,6 @@ exclude:
   - postcss.config.js
   - .github/
   - docs/
+  - README.md
+  - AGENTS.md
+  - CLAUDE.md
