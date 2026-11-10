@@ -58,11 +58,11 @@
 }
 
 @layer components {
-  /* Numbered section heading: the index comes from a CSS counter. */
+  /* Section heading. Inside .numbered it gets an index from a CSS counter. */
   .section-title {
     @apply flex items-baseline gap-3 text-2xl font-semibold tracking-tight;
   }
-  .section-title::before {
+  .numbered .section-title::before {
     counter-increment: section;
     content: counter(section, decimal-leading-zero);
     @apply font-mono text-sm font-normal text-muted;
