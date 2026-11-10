@@ -19,6 +19,7 @@ module.exports = {
         ink: token('ink'),
         muted: token('muted'),
         rule: token('rule'),
+        'rule-strong': token('rule-strong'),
         signal: token('signal'),
         'signal-text': token('signal-text'),
         'on-signal': token('on-signal'),

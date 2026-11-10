@@ -242,13 +242,13 @@ function renderPlaylists() {
 
     listToRender.forEach(pl => {
         const el = document.createElement('div');
-        el.className = 'panel flex justify-between items-center p-4 ';
+        el.className = 'panel flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 p-4 ';
         el.innerHTML = `
-            <div>
-                <div class="pl-name font-semibold"></div>
+            <div class="min-w-0">
+                <div class="pl-name font-semibold break-words"></div>
                 <div class="font-mono text-xs text-muted">${pl.tracks.total} tracks</div>
             </div>
-            <div class="flex gap-2 flex-wrap sm:flex-nowrap justify-end mt-2 sm:mt-0">
+            <div class="flex gap-2 shrink-0">
                 <select class="field !py-1">
                     <option value="date">Release Date</option>
                     <option value="name">Track Name</option>

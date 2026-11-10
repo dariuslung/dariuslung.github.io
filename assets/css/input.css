@@ -26,6 +26,7 @@
     --c-ink: 22 24 28;
     --c-muted: 95 99 104;
     --c-rule: 214 211 203;
+    --c-rule-strong: 135 133 128;
     --c-signal: 255 79 0;
     --c-signal-text: 194 59 0;
     --c-on-signal: 22 24 28;
@@ -34,10 +35,11 @@
 
   .dark {
     --c-paper: 11 13 16;
-    --c-surface: 18 21 26;
+    --c-surface: 23 27 33;
     --c-ink: 231 229 224;
     --c-muted: 154 160 166;
-    --c-rule: 38 42 49;
+    --c-rule: 48 53 61;
+    --c-rule-strong: 104 110 118;
     --c-signal: 255 79 0;
     --c-signal-text: 255 106 38;
     --c-on-signal: 22 24 28;
@@ -49,8 +51,9 @@
     counter-reset: section;
   }
 
+  /* signal-text rather than signal: the brighter orange is under 3:1 on paper. */
   :focus-visible {
-    @apply outline outline-2 outline-offset-2 outline-signal;
+    @apply outline outline-2 outline-offset-2 outline-signal-text;
   }
 }
 
@@ -76,7 +79,7 @@
     @apply decoration-2;
   }
 
-  /* Static container. */
+  /* Static container. Dividers and containers use the faint rule; controls use rule-strong (3:1). */
   .panel {
     @apply bg-surface border border-rule;
   }
@@ -92,7 +95,7 @@
   }
 
   .btn {
-    @apply inline-flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium bg-surface text-ink border border-rule;
+    @apply inline-flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium bg-surface text-ink border border-rule-strong;
     transition: transform 60ms ease-out;
   }
   .btn:active {
@@ -115,13 +118,13 @@
 
   /* Form controls (inputs and selects). */
   .field {
-    @apply bg-paper text-ink border border-rule px-3 py-2 text-sm rounded-none;
+    @apply bg-paper text-ink border border-rule-strong px-3 py-2 text-sm rounded-none;
   }
   .field::placeholder {
     @apply text-muted;
   }
   .field:focus {
-    @apply border-signal outline-none ring-1 ring-signal;
+    @apply border-signal-text outline-none ring-1 ring-signal-text;
   }
 
   /* Small monospace metadata tag. */
@@ -141,6 +144,14 @@
     .btn-spotify:hover {
       @apply border-ink;
     }
+  }
+}
+
+/* Touch screens: keep controls at a comfortable tap height. */
+@media (pointer: coarse) {
+  .btn,
+  .field {
+    min-height: 44px;
   }
 }
 

@@ -27,7 +27,7 @@ description: Paste a list with one entry per line and sort it alphabetically, na
             </div>
         </div>
 
-        <div class="mt-6 pt-6 border-t border-rule grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_auto_auto] gap-4 items-end">
+        <div class="mt-6 pt-6 border-t border-rule grid grid-cols-1 sm:grid-cols-[1fr_1fr_auto] gap-4 items-end">
             <div>
                 <label for="ls_criteria" class="label block mb-1">Sort by</label>
                 <select id="ls_criteria" class="field w-full cursor-pointer">
@@ -49,7 +49,7 @@ description: Paste a list with one entry per line and sort it alphabetically, na
                 <input id="ls_dedupe" type="checkbox" class="w-4 h-4 accent-signal">
                 Remove duplicates
             </label>
-            <button id="ls_sort" type="button" class="btn btn-primary !py-2.5 font-semibold sm:col-span-2 lg:col-span-1">Sort</button>
+            <button id="ls_sort" type="button" class="btn btn-primary !py-2.5 font-semibold sm:col-span-3">Sort</button>
         </div>
 
         <p id="ls_note" class="text-sm text-muted mt-4 min-h-[1.25rem]" role="status" aria-live="polite"></p>

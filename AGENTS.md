@@ -4,7 +4,7 @@ Personal site and small web tools for Darius Lung. Jekyll 4 + Tailwind 3 (PostCS
 
 ## Layout
 - `assets/css/styles.css` is **generated and committed**. Rebuild it with `npm run build:css` (not the `--watch` build) and commit it with every change to classes, `input.css` or `tailwind.config.js`: `.github/workflows/deploy.yml` rebuilds it and fails the deploy if it differs from the committed copy.
-- Colours are CSS variables (`--c-*`) in `assets/css/input.css`, mapped to Tailwind names (`paper`, `ink`, `muted`, `rule`, `signal`) in `tailwind.config.js`. Dark mode swaps the variables; don't add per-element `dark:` colour pairs.
+- Colours are CSS variables (`--c-*`) in `assets/css/input.css`, mapped to Tailwind names (`paper`, `ink`, `muted`, `rule`, `rule-strong` for control borders, `signal`) in `tailwind.config.js`. Dark mode swaps the variables; don't add per-element `dark:` colour pairs.
 - Shared components (`.card`, `.btn`, `.field`, `.tag`, `.panel`, `.section-title`) live in `input.css`. Reuse them before adding new ones.
 - Home page sections come from `index.html`; the Projects section renders from `_data/projects.yml` (empty list hides it). The CV link appears only when `assets/cv.pdf` exists.
 - Tools: each page in `tools/` pairs with a script in `assets/js/`. A new tool also needs a card in `tools.html`; `sitemap.xml` lists every `layout: default` page on its own. Layout, navbar and footer are in `_layouts/default.html` and `_includes/navbar.html`.

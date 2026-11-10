@@ -48,7 +48,7 @@ function check_negative_weight() {
 }
 
 // Highlight classes
-const defaultClasses = ["border-rule", "bg-paper"];
+const defaultClasses = ["border-rule-strong", "bg-paper"];
 // Accent border plus a faint accent tint for the winner so text remains readable
 const highlightClasses = ["border-signal", "bg-signal/10", "ring-1", "ring-signal"];
 
@@ -113,13 +113,17 @@ if(rand_btn) rand_btn.addEventListener("click", () => {
 const dstb_btn = document.getElementById("dstb_btn");
 const dstb_container = document.getElementById("dstb_container");
 
-const width = 800; 
-const height = 350; 
-const marginTop = 20;
-const marginRight = 20;
-const marginBottom = 70;
-const marginLeft = 60;
+const marginTop = 24;
+const marginRight = 8;
+const marginLeft = 48;
 const sample_size = 1000000;
+const tick_font_px = 12;
+const tick_char_px = 7.2; // JetBrains Mono advance width at 12px
+const max_label_chars = 16;
+
+function shorten(label) {
+    return label.length > max_label_chars ? `${label.slice(0, max_label_chars - 1)}…` : label;
+}
 
 if(dstb_btn) dstb_btn.addEventListener("click", () => {
     if (dstb_container.children.length > 0) {
@@ -161,15 +165,25 @@ if(dstb_btn) dstb_btn.addEventListener("click", () => {
         }
     }
 
-    const svg = d3.create("svg")
-        .attr("viewBox", [0, 0, width, height])
-        .attr("class", "w-full h-auto font-mono text-muted");
+    // Draw at the container's real width so text stays at its true size on phones.
+    // The container is hidden while empty, so measure its parent and subtract the p-6 padding.
+    const width = Math.max(260, dstb_container.parentElement.clientWidth - 48);
+    const height = Math.round(Math.min(350, Math.max(240, width * 0.6)));
 
     const labels = Array.from(data).map(d => d.label);
     const x = d3.scaleBand()
         .domain(labels)
         .range([marginLeft, width - marginRight])
         .padding([0.2]); 
+
+    // Tilt the x-axis labels only when they would collide.
+    const label_px = d3.max(labels, l => shorten(l).length) * tick_char_px;
+    const tilt_labels = label_px > x.step() - 6;
+    const marginBottom = tilt_labels ? Math.round(label_px * 0.71) + 24 : 28;
+
+    const svg = d3.create("svg")
+        .attr("viewBox", [0, 0, width, height])
+        .attr("class", "w-full h-auto font-mono text-muted");
 
     const y = d3.scaleLinear()
         .domain([0, d3.max(data, d => d.frequency)]).nice()
@@ -181,7 +195,7 @@ if(dstb_btn) dstb_btn.addEventListener("click", () => {
 
     // Bars, each with a native tooltip showing the exact count and share
     svg.append("g")
-        .style("fill", "rgb(var(--c-signal))")
+        .style("fill", "rgb(var(--c-ink))")
         .selectAll("rect")
         .data(data)
         .join("rect")
@@ -210,23 +224,26 @@ if(dstb_btn) dstb_btn.addEventListener("click", () => {
     // X-axis
     const xAxis = svg.append("g")
         .attr("transform", `translate(0,${height - marginBottom})`)
-        .call(d3.axisBottom(x).tickSizeOuter(0));
+        .call(d3.axisBottom(x).tickSizeOuter(0).tickFormat(shorten))
+        .attr("font-family", null); // inherit the mono font from the svg
 
-    // Rotate X-axis labels to prevent overlapping
-    xAxis.selectAll("text")
-        .attr("transform", "translate(-10, 0) rotate(-45)")
-        .style("text-anchor", "end");
+    if (tilt_labels) {
+        xAxis.selectAll("text")
+            .attr("transform", "translate(-6, 0) rotate(-45)")
+            .style("text-anchor", "end");
+    }
 
     // Y-axis
     const yAxis = svg.append("g")
         .attr("transform", `translate(${marginLeft},0)`)
         // Format ticks using ~s (e.g., 1000000 -> 1M) to reduce width
-        .call(d3.axisLeft(y).ticks(5).tickFormat(d3.format("~s")).tickSizeOuter(0)); 
+        .call(d3.axisLeft(y).ticks(5).tickFormat(d3.format("~s")).tickSizeOuter(0))
+        .attr("font-family", null);
 
     // Style axes for Dark Mode compatibility
     svg.selectAll(".domain").attr("stroke", "currentColor").attr("opacity", "0.2");
     svg.selectAll(".tick line").attr("stroke", "currentColor").attr("opacity", "0.1");
-    svg.selectAll(".tick text").attr("fill", "currentColor").attr("font-size", "12px");
+    svg.selectAll(".tick text").attr("fill", "currentColor").attr("font-size", `${tick_font_px}px`);
 
     dstb_container.append(svg.node());
 });

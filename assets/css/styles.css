@@ -506,6 +506,7 @@ video {
     --c-ink: 22 24 28;
     --c-muted: 95 99 104;
     --c-rule: 214 211 203;
+    --c-rule-strong: 135 133 128;
     --c-signal: 255 79 0;
     --c-signal-text: 194 59 0;
     --c-on-signal: 22 24 28;
@@ -514,10 +515,11 @@ video {
 
   .dark {
     --c-paper: 11 13 16;
-    --c-surface: 18 21 26;
+    --c-surface: 23 27 33;
     --c-ink: 231 229 224;
     --c-muted: 154 160 166;
-    --c-rule: 38 42 49;
+    --c-rule: 48 53 61;
+    --c-rule-strong: 104 110 118;
     --c-signal: 255 79 0;
     --c-signal-text: 255 106 38;
     --c-on-signal: 22 24 28;
@@ -533,11 +535,12 @@ video {
     counter-reset: section;
 }
 
+  /* signal-text rather than signal: the brighter orange is under 3:1 on paper. */
   :focus-visible {
   outline-style: solid;
   outline-width: 2px;
   outline-offset: 2px;
-  outline-color: rgb(var(--c-signal) / 1);
+  outline-color: rgb(var(--c-signal-text) / 1);
 }
 .container {
   width: 100%;
@@ -611,7 +614,7 @@ video {
 .link:hover {
   text-decoration-thickness: 2px;
 }
-/* Static container. */
+/* Static container. Dividers and containers use the faint rule; controls use rule-strong (3:1). */
 .panel {
   border-width: 1px;
   --tw-border-opacity: 1;
@@ -640,7 +643,7 @@ video {
   gap: 0.5rem;
   border-width: 1px;
   --tw-border-opacity: 1;
-  border-color: rgb(var(--c-rule) / var(--tw-border-opacity, 1));
+  border-color: rgb(var(--c-rule-strong) / var(--tw-border-opacity, 1));
   --tw-bg-opacity: 1;
   background-color: rgb(var(--c-surface) / var(--tw-bg-opacity, 1));
   padding-left: 0.75rem;
@@ -660,7 +663,7 @@ video {
   gap: 0.5rem;
   border-width: 1px;
   --tw-border-opacity: 1;
-  border-color: rgb(var(--c-rule) / var(--tw-border-opacity, 1));
+  border-color: rgb(var(--c-rule-strong) / var(--tw-border-opacity, 1));
   --tw-bg-opacity: 1;
   background-color: rgb(var(--c-surface) / var(--tw-bg-opacity, 1));
   padding-left: 0.75rem;
@@ -719,7 +722,7 @@ video {
   border-radius: 0px;
   border-width: 1px;
   --tw-border-opacity: 1;
-  border-color: rgb(var(--c-rule) / var(--tw-border-opacity, 1));
+  border-color: rgb(var(--c-rule-strong) / var(--tw-border-opacity, 1));
   --tw-bg-opacity: 1;
   background-color: rgb(var(--c-paper) / var(--tw-bg-opacity, 1));
   padding-left: 0.75rem;
@@ -741,14 +744,14 @@ video {
 }
 .field:focus {
   --tw-border-opacity: 1;
-  border-color: rgb(var(--c-signal) / var(--tw-border-opacity, 1));
+  border-color: rgb(var(--c-signal-text) / var(--tw-border-opacity, 1));
   outline: 2px solid transparent;
   outline-offset: 2px;
   --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
   --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
   box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
   --tw-ring-opacity: 1;
-  --tw-ring-color: rgb(var(--c-signal) / var(--tw-ring-opacity, 1));
+  --tw-ring-color: rgb(var(--c-signal-text) / var(--tw-ring-opacity, 1));
 }
 /* Small monospace metadata tag. */
 .tag {
@@ -1008,9 +1011,6 @@ video {
 .items-center {
   align-items: center;
 }
-.justify-end {
-  justify-content: flex-end;
-}
 .justify-center {
   justify-content: center;
 }
@@ -1091,6 +1091,10 @@ video {
 .border-rule {
   --tw-border-opacity: 1;
   border-color: rgb(var(--c-rule) / var(--tw-border-opacity, 1));
+}
+.border-rule-strong {
+  --tw-border-opacity: 1;
+  border-color: rgb(var(--c-rule-strong) / var(--tw-border-opacity, 1));
 }
 .border-signal {
   --tw-border-opacity: 1;
@@ -1182,10 +1186,6 @@ video {
 .py-2 {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-}
-.py-2\.5 {
-  padding-top: 0.625rem;
-  padding-bottom: 0.625rem;
 }
 .py-3 {
   padding-top: 0.75rem;
@@ -1334,6 +1334,14 @@ video {
   src: url('../fonts/jetbrains-mono-latin-400-normal.woff2') format('woff2');
 }
 
+/* Touch screens: keep controls at a comfortable tap height. */
+@media (pointer: coarse) {
+  .btn,
+  .field {
+    min-height: 44px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation: none !important;
@@ -1389,12 +1397,8 @@ video {
 
 @media (min-width: 640px) {
 
-  .sm\:col-span-2 {
-    grid-column: span 2 / span 2;
-  }
-
-  .sm\:mt-0 {
-    margin-top: 0px;
+  .sm\:col-span-3 {
+    grid-column: span 3 / span 3;
   }
 
   .sm\:w-24 {
@@ -1405,16 +1409,20 @@ video {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .sm\:grid-cols-\[1fr_1fr_auto\] {
+    grid-template-columns: 1fr 1fr auto;
+  }
+
   .sm\:flex-row {
     flex-direction: row;
   }
 
-  .sm\:flex-nowrap {
-    flex-wrap: nowrap;
-  }
-
   .sm\:items-center {
     align-items: center;
+  }
+
+  .sm\:justify-between {
+    justify-content: space-between;
   }
 
   .sm\:gap-6 {
@@ -1452,16 +1460,5 @@ video {
 
   .md\:grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-}
-
-@media (min-width: 1024px) {
-
-  .lg\:col-span-1 {
-    grid-column: span 1 / span 1;
-  }
-
-  .lg\:grid-cols-\[1fr_1fr_auto_auto\] {
-    grid-template-columns: 1fr 1fr auto auto;
   }
 }
