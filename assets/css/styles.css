@@ -537,6 +537,11 @@ video {
 }
 
   /* signal-text rather than signal: the light theme's pale fill is under 3:1 on parchment. */
+  /* Trajan-style capitals for headings, like the Hollow Knight logotype. */
+  h1, h2, h3 {
+  font-family: Cinzel, "Trajan Pro", Georgia, serif;
+}
+
   :focus-visible {
   outline-style: solid;
   outline-width: 2px;
@@ -584,7 +589,7 @@ video {
   font-size: 1.5rem;
   line-height: 2rem;
   font-weight: 600;
-  letter-spacing: -0.025em;
+  letter-spacing: 0.025em;
 }
 .numbered .section-title::before {
     counter-increment: section;
@@ -780,6 +785,28 @@ video {
     -webkit-mask: url('../img/ornaments/divider-gem.svg') center / contain no-repeat;
     mask: url('../img/ornaments/divider-gem.svg') center / contain no-repeat;
   }
+/* Filigree scrollwork, drawn once on a 400x48 canvas and masked so it follows the theme. Size it with max-width. */
+.filigree,
+  .filigree-bottom {
+    display: block;
+    width: 100%;
+    aspect-ratio: 400 / 48;
+    background-color: rgb(var(--c-muted));
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    -webkit-mask-size: contain;
+  }
+.filigree {
+    -webkit-mask-image: url('../img/ornaments/filigree-top.svg');
+    mask-image: url('../img/ornaments/filigree-top.svg');
+  }
+.filigree-bottom {
+    -webkit-mask-image: url('../img/ornaments/filigree-bottom.svg');
+    mask-image: url('../img/ornaments/filigree-bottom.svg');
+  }
 /* Inked corner brackets on the top-left and bottom-right of a panel. */
 .flourish {
     position: relative;
@@ -924,9 +951,6 @@ video {
 .mt-4 {
   margin-top: 1rem;
 }
-.mt-5 {
-  margin-top: 1.25rem;
-}
 .mt-6 {
   margin-top: 1.5rem;
 }
@@ -1016,6 +1040,9 @@ video {
 }
 .max-w-4xl {
   max-width: 56rem;
+}
+.max-w-\[13rem\] {
+  max-width: 13rem;
 }
 .max-w-prose {
   max-width: 65ch;
@@ -1267,6 +1294,9 @@ video {
 .pt-6 {
   padding-top: 1.5rem;
 }
+.font-display {
+  font-family: Cinzel, "Trajan Pro", Georgia, serif;
+}
 .font-mono {
   font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
@@ -1286,10 +1316,6 @@ video {
   font-size: 1rem;
   line-height: 1.5rem;
 }
-.text-lg {
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-}
 .text-sm {
   font-size: 0.875rem;
   line-height: 1.25rem;
@@ -1308,11 +1334,26 @@ video {
 .font-semibold {
   font-weight: 600;
 }
+.uppercase {
+  text-transform: uppercase;
+}
 .leading-relaxed {
   line-height: 1.625;
 }
+.leading-tight {
+  line-height: 1.25;
+}
 .tracking-tight {
   letter-spacing: -0.025em;
+}
+.tracking-wide {
+  letter-spacing: 0.025em;
+}
+.tracking-wider {
+  letter-spacing: 0.05em;
+}
+.tracking-widest {
+  letter-spacing: 0.1em;
 }
 .text-\[\#0a66c2\] {
   --tw-text-opacity: 1;
@@ -1396,6 +1437,14 @@ video {
   font-weight: 100 900;
   font-display: swap;
   src: url('../fonts/inter-latin-wght-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Cinzel';
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url('../fonts/cinzel-latin-wght-normal.woff2') format('woff2');
 }
 
 @font-face {
@@ -1532,10 +1581,6 @@ video {
 
   .md\:mb-0 {
     margin-bottom: 0px;
-  }
-
-  .md\:block {
-    display: block;
   }
 
   .md\:grid {

@@ -38,16 +38,19 @@ Move `dariuslung.github.io` off the generic Tailwind card look and onto a calm, 
 
 ### Ornament
 
-Hand-inked shapes live in `assets/img/ornaments/` (`corner.svg`, `divider-line.svg`, `divider-gem.svg`) and are applied as CSS masks, so they take the theme colours: `.divider` (section and page-header dividers) and `.flourish` (corner brackets on major panels). The avatar's double ring is the same kind of shape, inlined in `index.html`. The chart bars use an ink cross-hatch.
+Hand-inked shapes live in `assets/img/ornaments/` (`corner.svg`, `divider-line.svg`, `divider-gem.svg`, `filigree-top.svg`, `filigree-bottom.svg`) and are applied as CSS masks, so they take the theme colours: `.divider` (section and page-header dividers), `.flourish` (corner brackets on major panels) and `.filigree` / `.filigree-bottom` (the scrollwork above and below the name on the home page, sized with `max-width`).
+
+The filigree is heraldic, not a vine: tapered strokes that swell and end in points, a strong centre (pointed arch on top, shard on the bottom), two big mirrored arcs ending in inward scrolls, a thin outer hairline and a few thorns. An earlier version used an evenly spaced sine stem with round curls and leaves and read as a festive garland; avoid repeating motifs, beads and rounded leaves. The avatar's double ring is the same kind of shape, inlined in `index.html`. The chart bars use an ink cross-hatch.
 
 `docs/ornaments.py` generates the shapes (jittered curves, tapered strokes, wobbly rings from fixed seeds). Re-run it to change them: `python3 docs/ornaments.py . <scratch-dir>`. The favicon, Apple icon and share image reuse them. Keep ornament sparse: dividers and major panels only, never on small cards or controls.
 
 ### Typography
 
-- **Two families, self-hosted** as `woff2` in `assets/fonts/`, with `font-display: swap` and the primary weight preloaded:
-  - **Inter** (variable): headings and body. It's already in `tailwind.config.js` but was never loaded; this fixes that.
-  - **JetBrains Mono** (400 only): section indices, weights, complexity badges, small labels.
-- Drop Space Grotesk. A third family costs load time and adds little.
+- **Three families, self-hosted** as `woff2` in `assets/fonts/`, with `font-display: swap`; Inter and Cinzel are preloaded:
+  - **Cinzel** (variable, OFL): all `h1`–`h3` and the navbar name. Trajan-style capitals, chosen to echo the Hollow Knight logotype. Lowercase renders as small caps, so headings need no `tracking-tight` (it squeezes the capitals); use `tracking-wide`.
+  - **Inter** (variable): body text and controls.
+  - **JetBrains Mono** (400 only): labels, weights, complexity badges, small metadata.
+- Drop Space Grotesk. (Cinzel is the third family; the Hollow Knight direction justified the extra ~26 KB.)
 - Body text is left-aligned (remove `text-justify`, which leaves gaps between words at narrow widths).
 
 ### Interaction

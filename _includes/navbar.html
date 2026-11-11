@@ -1,7 +1,7 @@
 {% assign cv_file = site.static_files | where: "path", "/assets/cv.pdf" %}
 <nav class="border-b border-rule bg-paper" aria-label="Main">
     <div class="max-w-4xl mx-auto px-6 py-3 flex justify-between items-center gap-3">
-        <a class="text-lg font-semibold tracking-tight hover:text-signal-text" href="/">Darius Lung</a>
+        <a class="font-display text-base font-semibold uppercase tracking-widest hover:text-signal-text" href="/">Darius Lung</a>
 
         <div class="flex items-center gap-4 sm:gap-6 text-sm">
             <a href="/" class="py-1 border-b-2 hover:text-signal-text {% if page.url == '/' %}border-signal{% else %}border-transparent{% endif %}" {% if page.url == '/' %}aria-current="page"{% endif %}>Home</a>

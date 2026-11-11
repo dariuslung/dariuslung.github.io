@@ -11,6 +11,14 @@
 }
 
 @font-face {
+  font-family: 'Cinzel';
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url('../fonts/cinzel-latin-wght-normal.woff2') format('woff2');
+}
+
+@font-face {
   font-family: 'JetBrains Mono';
   font-style: normal;
   font-weight: 400;
@@ -53,6 +61,11 @@
   }
 
   /* signal-text rather than signal: the light theme's pale fill is under 3:1 on parchment. */
+  /* Trajan-style capitals for headings, like the Hollow Knight logotype. */
+  h1, h2, h3 {
+    @apply font-display;
+  }
+
   :focus-visible {
     @apply outline outline-2 outline-offset-2 outline-signal-text;
   }
@@ -61,7 +74,7 @@
 @layer components {
   /* Section heading. Inside .numbered it gets an index from a CSS counter. */
   .section-title {
-    @apply flex items-baseline gap-3 text-2xl font-semibold tracking-tight;
+    @apply flex items-baseline gap-3 text-2xl font-semibold tracking-wide;
   }
   .numbered .section-title::before {
     counter-increment: section;
@@ -151,6 +164,29 @@
     background-color: rgb(var(--c-signal-text));
     -webkit-mask: url('../img/ornaments/divider-gem.svg') center / contain no-repeat;
     mask: url('../img/ornaments/divider-gem.svg') center / contain no-repeat;
+  }
+
+  /* Filigree scrollwork, drawn once on a 400x48 canvas and masked so it follows the theme. Size it with max-width. */
+  .filigree,
+  .filigree-bottom {
+    display: block;
+    width: 100%;
+    aspect-ratio: 400 / 48;
+    background-color: rgb(var(--c-muted));
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    -webkit-mask-size: contain;
+  }
+  .filigree {
+    -webkit-mask-image: url('../img/ornaments/filigree-top.svg');
+    mask-image: url('../img/ornaments/filigree-top.svg');
+  }
+  .filigree-bottom {
+    -webkit-mask-image: url('../img/ornaments/filigree-bottom.svg');
+    mask-image: url('../img/ornaments/filigree-bottom.svg');
   }
 
   /* Inked corner brackets on the top-left and bottom-right of a panel. */
