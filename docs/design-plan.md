@@ -40,7 +40,7 @@ Move `dariuslung.github.io` off the generic Tailwind card look and onto a calm, 
 
 Hand-inked shapes live in `assets/img/ornaments/` (`corner.svg`, `divider-line.svg`, `divider-gem.svg`, `filigree-top.svg`, `filigree-bottom.svg`) and are applied as CSS masks, so they take the theme colours: `.divider` (section and page-header dividers), `.flourish` (corner brackets on major panels) and `.filigree` / `.filigree-bottom` (the scrollwork above and below the name on the home page, sized with `max-width`).
 
-All ornaments share one visual language: tapered strokes that end in sharp points, diamonds, thorns and pointed arches, mirrored about a centre. The dividers (arch over a diamond), the corner brackets (angular double legs with a diamond) and the avatar ring (two thin rings with four radial diamonds and four thorn ticks) were redrawn to match the filigree after the first, rounder versions looked off-theme.
+All ornaments share one visual language: tapered strokes that end in sharp points, diamonds, thorns and pointed arches, mirrored about a centre. The dividers (a pointed oval around a diamond, like the bottom filigree's centre) and the corner brackets (angular double legs with a diamond) were redrawn to match the filigree after the first, rounder versions looked off-theme.
 
 The filigree is heraldic, not a vine: tapered strokes that swell and end in points, a strong centre (pointed arch on top, shard on the bottom), two big mirrored arcs ending in inward scrolls, a thin outer hairline and a few thorns. An earlier version used an evenly spaced sine stem with round curls and leaves and read as a festive garland; avoid repeating motifs, beads and rounded leaves. The avatar's double ring is the same kind of shape, inlined in `index.html`. The chart bars use an ink cross-hatch.
 
@@ -116,7 +116,7 @@ Ship this, live with it for a few days, then start phase 2.
 Section headers use small mono indices (`01`, `02`, `03`) as the only typographic flourish.
 
 1. **Intro**
-   - Keep the profile photo. Replace the blurred glow and conic spinner with a single thin ring (static, or slowly rotating and stopped under reduced motion).
+   - ~~Keep the profile photo.~~ **No photo anywhere on the site, by choice (privacy).** The hero is the name between two filigrees; the share image is the same title card. Don't reintroduce a portrait or avatar ring.
    - Name, one-line focus ("Networked systems · CS"), and two actions: `Contact` (anchor) and `CV` (PDF link).
 2. **About**
    - Keep the existing bio copy word for word, as plain left-aligned prose. No tabs, no hover reveals, no footnotes.
@@ -171,6 +171,6 @@ Section headers use small mono indices (`01`, `02`, `03`) as the only typographi
 3. **Lighthouse** (mobile) on `/`, `/tools`, `/tools/weighted-rng.html`, `/tools/spotify-sorter/`. Target ≥ 95 for Performance and Accessibility.
 4. **Contrast**: check every text/background pair from the token table in both themes. AA is required.
 5. **Keyboard-only pass**: tab through every page. Every interactive element must show a visible focus ring and nothing should depend on hover.
-6. **Reduced motion**: enable it in the OS or DevTools and confirm the avatar ring and press effect are off.
+6. **Reduced motion**: enable it in the OS or DevTools and confirm the press effect is off.
 7. **Widths**: 360px, 768px, 1280px. No horizontal scroll, and the contact grid wraps cleanly.
 8. **Spotify sorter regression**: sign in, sort a small playlist end to end, and confirm the order matches the pre-redesign behaviour.

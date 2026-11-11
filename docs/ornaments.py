@@ -1,4 +1,4 @@
-"""Generates the hand-inked ornament shapes: jittered curves, tapered strokes, wobbly rings.
+"""Generates the hand-inked ornament shapes: tapered strokes, pointed arches, diamonds and thorns.
 Run: python3 ornaments.py <repo-root> <scratch-dir>"""
 import math, random, sys
 
@@ -18,19 +18,6 @@ def catmull(points, closed=False):
 
 def jitter(points, rng, amt):
     return [(x + rng.uniform(-amt, amt), y + rng.uniform(-amt, amt)) for x, y in points]
-
-def ring(cx, cy, r, rng, wobble, turns=1.05, n=40, start=None):
-    """A hand-drawn circle: radius wobbles smoothly, and the stroke overshoots where it closes."""
-    start = rng.uniform(0, 2 * math.pi) if start is None else start
-    ks = [(k, rng.uniform(0.4, 1.0) / k, rng.uniform(0, 2 * math.pi)) for k in (2, 3, 5)]
-    pts = []
-    for i in range(int(n * turns) + 1):
-        t = i / n
-        th = start + 2 * math.pi * t
-        rr = r + wobble * sum(a * math.sin(k * th + ph) for k, a, ph in ks)
-        rr += 0.35 * t  # spiral out slightly so the overshoot doesn't retrace the start
-        pts.append((cx + rr * math.cos(th), cy + rr * math.sin(th)))
-    return catmull(pts)
 
 def svg(w, h, body, extra=''):
     return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" width="{w}" height="{h}"{extra}>{body}</svg>\n'
@@ -75,32 +62,6 @@ def divider_gem(colour='#000'):
     parts.append(_diamond(22, 10, 3.7, colour))
     parts.append(_diamond(22, 0.9, 1.3, colour)); parts.append(_diamond(22, 19.1, 1.3, colour))
     return svg(44, 20, ''.join(parts))
-
-def avatar_ring(colour='currentColor'):
-    """Two thin concentric rings with four radial diamonds (N/E/S/W) and four thorn ticks on the diagonals.
-    Drawn on a 100-unit canvas centred at 50,50; the inner ring is r=45 and the outer r=48 (the photo's spinning arc sits inside)."""
-    parts = [f'<circle cx="50" cy="50" r="48" fill="none" stroke="{colour}" stroke-width="1.1"/>',
-             f'<circle cx="50" cy="50" r="45" fill="none" stroke="{colour}" stroke-width="0.6" opacity="0.75"/>']
-    for ang in (0, 90, 180, 270):
-        a = math.radians(ang); ux, uy = math.cos(a), math.sin(a); tx, ty = -uy, ux
-        c = 48
-        pts = [(50 + ux * (c + 3.6), 50 + uy * (c + 3.6)), (50 + tx * 2.0 + ux * c, 50 + ty * 2.0 + uy * c),
-               (50 + ux * (c - 3.6), 50 + uy * (c - 3.6)), (50 - tx * 2.0 + ux * c, 50 - ty * 2.0 + uy * c)]
-        parts.append('<path d="M' + 'L'.join(f'{fmt(x)} {fmt(y)}' for x, y in pts) + f'Z" fill="{colour}"/>')
-    for ang in (45, 135, 225, 315):
-        a = math.radians(ang); ux, uy = math.cos(a), math.sin(a); tx, ty = -uy, ux
-        r0, r1, w = 48.2, 54.4, 1.7
-        base1 = (50 + ux * r0 + tx * w / 2, 50 + uy * r0 + ty * w / 2)
-        base2 = (50 + ux * r0 - tx * w / 2, 50 + uy * r0 - ty * w / 2)
-        tip = (50 + ux * r1, 50 + uy * r1)
-        parts.append(f'<path d="M{fmt(base1[0])} {fmt(base1[1])}L{fmt(tip[0])} {fmt(tip[1])}L{fmt(base2[0])} {fmt(base2[1])}Z" fill="{colour}"/>')
-    return ''.join(parts)
-
-def avatar_ring_standalone(colour, px_per_100):
-    """The ring as a self-contained SVG (with room for the diamonds and thorns) for rasterising."""
-    size = px_per_100 * 1.12
-    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="-6 -6 112 112" width="{fmt(size)}" height="{fmt(size)}">'
-            f'{avatar_ring(colour)}</svg>\n')
 
 # ---- filigree: heraldic scrollwork on a 400x48 canvas, mirrored about x=200 ----
 # Built from tapered strokes (filled outlines that swell and end in points), a strong centre motif,
@@ -236,13 +197,11 @@ if __name__ == '__main__':
     open(f'{out}/divider-gem.svg', 'w').write(divider_gem())
     open(f'{out}/filigree-top.svg', 'w').write(filigree(sw=3.4, flip=False, centre='arch'))
     open(f'{out}/filigree-bottom.svg', 'w').write(filigree(sw=3.4, flip=True, centre='shard'))
-    open(f'{scratch}/avatar-ring.txt', 'w').write(avatar_ring())
     # coloured copies for previews and the share image
     for name, fn in (('corner', corner), ('divider-line', divider_line), ('divider-gem', divider_gem)):
         open(f'{scratch}/{name}-bone.svg', 'w').write(fn('#E4DFD0'))
     for name, fn in (('corner', corner), ('divider-line', divider_line), ('divider-gem', divider_gem)):
         open(f'{scratch}/{name}-soul.svg', 'w').write(fn('#8EC9E8'))
-    open(f'{scratch}/ring-strong.svg', 'w').write(avatar_ring_standalone('#5B6A82', 381.6))
     for name, kw in (('top', dict(flip=False, centre='arch')), ('bottom', dict(flip=True, centre='shard'))):
         open(f'{scratch}/filigree-{name}-og.svg', 'w').write(filigree(colour='#E4DFD0', sw=2.4, **kw))
     print('ok')
