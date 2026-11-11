@@ -36,14 +36,15 @@ def svg(w, h, body, extra=''):
     return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" width="{w}" height="{h}"{extra}>{body}</svg>\n'
 
 def corner(colour='#000'):
-    rng = random.Random(11)
-    outer = jitter([(1.4, 22), (1.7, 15), (1.9, 9), (3.6, 4.6), (8.2, 2.0), (14, 1.6), (22, 1.4)], rng, 0.25)
-    inner = jitter([(5.8, 16), (6.1, 11), (9.6, 6.6), (15, 5.9)], rng, 0.2)
-    st = f'fill="none" stroke="{colour}" stroke-linecap="round" stroke-linejoin="round"'
-    body = (f'<path d="{catmull(outer)}" {st} stroke-width="1.5"/><path d="{catmull(inner)}" {st} stroke-width="0.9"/>'
-            f'<path d="{catmull([(4.2, 7.6), (6.6, 10.1), (4.0, 12.6), (1.9, 10.0)], closed=True)}" fill="{colour}" transform="translate(0.1 -3.4) scale(0.9)"/>'
-            f'<circle cx="12.5" cy="3.7" r="0.85" fill="{colour}"/><circle cx="3.7" cy="12.5" r="0.85" fill="{colour}"/>')
-    return svg(24, 24, body)
+    """Angular double bracket: two tapered legs meeting at a sharp corner, an inner pair, and a diamond."""
+    legs = []
+    def leg(pts, wmax, rising):
+        w = (lambda t: wmax * t ** 0.9) if rising else (lambda t: wmax * (1 - t) ** 0.9)
+        legs.append(f'<path d="{_taper(_spline(pts, per=4), w)}" fill="{colour}"/>')
+    leg([(1.4, 22.5), (1.4, 1.4)], 2.0, True); leg([(1.4, 1.4), (22.5, 1.4)], 2.0, False)
+    leg([(4.9, 15.5), (4.9, 4.9)], 1.0, True); leg([(4.9, 4.9), (15.5, 4.9)], 1.0, False)
+    legs.append(_diamond(8.6, 8.6, 2.1, colour))
+    return svg(24, 24, ''.join(legs))
 
 def divider_line(colour='#000'):
     """A stroke that tapers to nothing at both ends, with a faint wobble."""
@@ -60,28 +61,43 @@ def divider_line(colour='#000'):
     return svg(200, 8, f'<path d="{catmull(pts, closed=True)}" fill="{colour}"/>', ' preserveAspectRatio="none"')
 
 def divider_gem(colour='#000'):
-    """A small hollow shard with a core, flanked by dots and dashes."""
-    rng = random.Random(23)
-    shell = jitter([(22, 1.2), (30.6, 10.1), (21.9, 18.9), (13.4, 9.9)], rng, 0.3)
-    core = jitter([(22, 6.1), (25.6, 10), (22, 13.8), (18.4, 10)], rng, 0.2)
-    body = (f'<path d="{catmull(shell, closed=True)}" fill="none" stroke="{colour}" stroke-width="1.5" stroke-linejoin="round"/>'
-            f'<path d="{catmull(core, closed=True)}" fill="{colour}"/>'
-            f'<path d="M7.2 10.1 L11.4 9.9" fill="none" stroke="{colour}" stroke-width="1.2" stroke-linecap="round"/>'
-            f'<path d="M32.6 10.0 L36.9 10.2" fill="none" stroke="{colour}" stroke-width="1.2" stroke-linecap="round"/>'
-            f'<circle cx="3.9" cy="10.1" r="1.25" fill="{colour}"/><circle cx="40.2" cy="9.9" r="1.25" fill="{colour}"/>')
-    return svg(44, 20, body)
+    """A small pointed arch over a diamond, on a hairline base with a diamond at each end."""
+    parts = []
+    for mirror in (False, True):
+        arc = [(15.2, 16), (16.2, 11.5), (18.8, 6.4), (22, 2.2)]
+        pts = [((44 - x) if mirror else x, y) for x, y in _spline(arc, per=6)]
+        parts.append(f'<path d="{_taper(pts, lambda t: 0.4 + 1.7 * math.sin(math.pi * t) ** 0.8)}" fill="{colour}"/>')
+        base = [(( 44 - x) if mirror else x, y) for x, y in _spline([(14.5, 16), (8.5, 16.1), (4.5, 16)], per=5)]
+        parts.append(f'<path d="{_taper(base, lambda t: 1.3 * (1 - t) ** 0.7 + 0.1)}" fill="{colour}"/>')
+    parts.append(_diamond(22, 10.2, 2.9, colour))
+    parts.append(_diamond(2.6, 16, 1.7, colour)); parts.append(_diamond(41.4, 16, 1.7, colour))
+    return svg(44, 20, ''.join(parts))
 
-def avatar_ring():
-    """Two overlapping hand-drawn circles for the avatar frame (inline in index.html, stroked in currentColor)."""
-    rng = random.Random(3)
-    a = ring(50, 50, 47.2, rng, 0.9, turns=1.06)
-    b = ring(50, 50, 44.6, rng, 0.8, turns=1.04)
-    return (f'<path d="{a}" stroke-width="1.6"/><path d="{b}" stroke-width="0.9" opacity="0.7"/>')
+def avatar_ring(colour='currentColor'):
+    """Two thin concentric rings with four radial diamonds (N/E/S/W) and four thorn ticks on the diagonals.
+    Drawn on a 100-unit canvas centred at 50,50; the inner ring is r=45 and the outer r=48 (the photo's spinning arc sits inside)."""
+    parts = [f'<circle cx="50" cy="50" r="48" fill="none" stroke="{colour}" stroke-width="1.1"/>',
+             f'<circle cx="50" cy="50" r="45" fill="none" stroke="{colour}" stroke-width="0.6" opacity="0.75"/>']
+    for ang in (0, 90, 180, 270):
+        a = math.radians(ang); ux, uy = math.cos(a), math.sin(a); tx, ty = -uy, ux
+        c = 48
+        pts = [(50 + ux * (c + 3.6), 50 + uy * (c + 3.6)), (50 + tx * 2.0 + ux * c, 50 + ty * 2.0 + uy * c),
+               (50 + ux * (c - 3.6), 50 + uy * (c - 3.6)), (50 - tx * 2.0 + ux * c, 50 - ty * 2.0 + uy * c)]
+        parts.append('<path d="M' + 'L'.join(f'{fmt(x)} {fmt(y)}' for x, y in pts) + f'Z" fill="{colour}"/>')
+    for ang in (45, 135, 225, 315):
+        a = math.radians(ang); ux, uy = math.cos(a), math.sin(a); tx, ty = -uy, ux
+        r0, r1, w = 48.2, 54.4, 1.7
+        base1 = (50 + ux * r0 + tx * w / 2, 50 + uy * r0 + ty * w / 2)
+        base2 = (50 + ux * r0 - tx * w / 2, 50 + uy * r0 - ty * w / 2)
+        tip = (50 + ux * r1, 50 + uy * r1)
+        parts.append(f'<path d="M{fmt(base1[0])} {fmt(base1[1])}L{fmt(tip[0])} {fmt(tip[1])}L{fmt(base2[0])} {fmt(base2[1])}Z" fill="{colour}"/>')
+    return ''.join(parts)
 
-def avatar_ring_standalone(colour, size):
-    """Same ring as a self-contained SVG with explicit attributes (for rasterising)."""
-    paths = avatar_ring().replace('<path ', f'<path fill="none" stroke="{colour}" stroke-linecap="round" ')
-    return svg(100, 100, paths, f' width="{size}" height="{size}"')
+def avatar_ring_standalone(colour, px_per_100):
+    """The ring as a self-contained SVG (with room for the diamonds and thorns) for rasterising."""
+    size = px_per_100 * 1.12
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="-6 -6 112 112" width="{fmt(size)}" height="{fmt(size)}">'
+            f'{avatar_ring(colour)}</svg>\n')
 
 # ---- filigree: heraldic scrollwork on a 400x48 canvas, mirrored about x=200 ----
 # Built from tapered strokes (filled outlines that swell and end in points), a strong centre motif,
@@ -223,7 +239,7 @@ if __name__ == '__main__':
         open(f'{scratch}/{name}-bone.svg', 'w').write(fn('#E4DFD0'))
     for name, fn in (('corner', corner), ('divider-line', divider_line), ('divider-gem', divider_gem)):
         open(f'{scratch}/{name}-soul.svg', 'w').write(fn('#8EC9E8'))
-    open(f'{scratch}/ring-strong.svg', 'w').write(avatar_ring_standalone('#5B6A82', 324))
+    open(f'{scratch}/ring-strong.svg', 'w').write(avatar_ring_standalone('#5B6A82', 381.6))
     for name, kw in (('top', dict(flip=False, centre='arch')), ('bottom', dict(flip=True, centre='shard'))):
         open(f'{scratch}/filigree-{name}-og.svg', 'w').write(filigree(colour='#E4DFD0', sw=2.4, **kw))
     print('ok')

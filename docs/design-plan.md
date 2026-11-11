@@ -40,6 +40,8 @@ Move `dariuslung.github.io` off the generic Tailwind card look and onto a calm, 
 
 Hand-inked shapes live in `assets/img/ornaments/` (`corner.svg`, `divider-line.svg`, `divider-gem.svg`, `filigree-top.svg`, `filigree-bottom.svg`) and are applied as CSS masks, so they take the theme colours: `.divider` (section and page-header dividers), `.flourish` (corner brackets on major panels) and `.filigree` / `.filigree-bottom` (the scrollwork above and below the name on the home page, sized with `max-width`).
 
+All ornaments share one visual language: tapered strokes that end in sharp points, diamonds, thorns and pointed arches, mirrored about a centre. The dividers (arch over a diamond), the corner brackets (angular double legs with a diamond) and the avatar ring (two thin rings with four radial diamonds and four thorn ticks) were redrawn to match the filigree after the first, rounder versions looked off-theme.
+
 The filigree is heraldic, not a vine: tapered strokes that swell and end in points, a strong centre (pointed arch on top, shard on the bottom), two big mirrored arcs ending in inward scrolls, a thin outer hairline and a few thorns. An earlier version used an evenly spaced sine stem with round curls and leaves and read as a festive garland; avoid repeating motifs, beads and rounded leaves. The avatar's double ring is the same kind of shape, inlined in `index.html`. The chart bars use an ink cross-hatch.
 
 `docs/ornaments.py` generates the shapes (jittered curves, tapered strokes, wobbly rings from fixed seeds). Re-run it to change them: `python3 docs/ornaments.py . <scratch-dir>`. The favicon, Apple icon and share image reuse them. Keep ornament sparse: dividers and major panels only, never on small cards or controls.
