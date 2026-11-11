@@ -61,16 +61,19 @@ def divider_line(colour='#000'):
     return svg(200, 8, f'<path d="{catmull(pts, closed=True)}" fill="{colour}"/>', ' preserveAspectRatio="none"')
 
 def divider_gem(colour='#000'):
-    """A small pointed arch over a diamond, on a hairline base with a diamond at each end."""
+    """The bottom filigree's centre in miniature: a pointed oval (vesica) around a diamond, with a diamond at
+    each tip and a tapering hairline running out to a small diamond on each side."""
     parts = []
     for mirror in (False, True):
-        arc = [(15.2, 16), (16.2, 11.5), (18.8, 6.4), (22, 2.2)]
-        pts = [((44 - x) if mirror else x, y) for x, y in _spline(arc, per=6)]
-        parts.append(f'<path d="{_taper(pts, lambda t: 0.4 + 1.7 * math.sin(math.pi * t) ** 0.8)}" fill="{colour}"/>')
-        base = [(( 44 - x) if mirror else x, y) for x, y in _spline([(14.5, 16), (8.5, 16.1), (4.5, 16)], per=5)]
-        parts.append(f'<path d="{_taper(base, lambda t: 1.3 * (1 - t) ** 0.7 + 0.1)}" fill="{colour}"/>')
-    parts.append(_diamond(22, 10.2, 2.9, colour))
-    parts.append(_diamond(2.6, 16, 1.7, colour)); parts.append(_diamond(41.4, 16, 1.7, colour))
+        mx = (lambda x: 44 - x) if mirror else (lambda x: x)
+        arc = [(22, 1.8), (24.7, 5.4), (25.9, 10), (24.7, 14.6), (22, 18.2)]
+        pts = [(mx(x), y) for x, y in _spline(arc, per=6)]
+        parts.append(f'<path d="{_taper(pts, lambda t: 0.4 + 1.5 * math.sin(math.pi * t) ** 0.9)}" fill="{colour}"/>')
+        hair = [(mx(x), y) for x, y in _spline([(26.4, 10), (34, 10.05), (40.2, 10)], per=5)]
+        parts.append(f'<path d="{_taper(hair, lambda t: 1.3 * (1 - t) ** 0.7 + 0.1)}" fill="{colour}"/>')
+        parts.append(_diamond(mx(41.6), 10, 1.7, colour))
+    parts.append(_diamond(22, 10, 3.7, colour))
+    parts.append(_diamond(22, 0.9, 1.3, colour)); parts.append(_diamond(22, 19.1, 1.3, colour))
     return svg(44, 20, ''.join(parts))
 
 def avatar_ring(colour='currentColor'):
