@@ -51,7 +51,7 @@ The favicon is the shard too: `favicon_shard()` (a bold pointed oval round a dia
 ### Typography
 
 - **Three families, self-hosted** as `woff2` in `assets/fonts/`, with `font-display: swap`; Inter and Cinzel are preloaded:
-  - **Cinzel** (variable, OFL): all `h1`–`h3` and the navbar name. Trajan-style capitals, chosen to echo the Hollow Knight logotype. Lowercase renders as small caps, so headings need no `tracking-tight` (it squeezes the capitals); use `tracking-wide`.
+  - **Cinzel** (variable, OFL): all `h1`–`h3` and the navbar links. Trajan-style capitals, chosen to echo the Hollow Knight logotype. Lowercase renders as small caps, so headings need no `tracking-tight` (it squeezes the capitals); use `tracking-wide`.
   - **Inter** (variable): body text and controls.
   - **JetBrains Mono** (400 only): labels, weights, complexity badges, small metadata.
 - Drop Space Grotesk. (Cinzel is the third family; the Hollow Knight direction justified the extra ~26 KB.)
@@ -110,7 +110,7 @@ Ship this, live with it for a few days, then start phase 2.
 - Minimal footer: name, year, GitHub source link. Nothing else.
 
 ### `_includes/navbar.html`
-- Plain name on the left, links on the right (`Home`, `Tools`, `CV`), with the active page marked by an underline or accent rule.
+- No brand: the links (`Home`, `Tools`, `CV`) sit on the left in Cinzel uppercase, the theme toggle on the right. The name lives in the home title card, the page title and the footer. The active page is marked by an accent underline.
 - The theme toggle stays an icon button with an `aria-label`. Delete the `setTimeout`/`theme-transitioning` lines in the click handler.
 - Mobile menu: add `aria-expanded` and `aria-controls` to the toggle button.
 
