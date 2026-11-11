@@ -57,6 +57,10 @@ The favicon is the shard too: `favicon_shard()` (a bold pointed oval round a dia
 - Drop Space Grotesk. (Cinzel is the third family; the Hollow Knight direction justified the extra ~26 KB.)
 - Body text is left-aligned (remove `text-justify`, which leaves gaps between words at narrow widths).
 
+### Layout
+
+One shared container, `.page-width` (`max-w-3xl` with `px-6`, so 720px of content), wraps the navbar, `main` and the footer. Their edges line up on every page; earlier the header and footer used 896px while the home content sat in a 672px column, so they stuck out past it. 720px also keeps About at about 90 characters per line. Don't add per-page width wrappers.
+
 ### Interaction
 
 ```css

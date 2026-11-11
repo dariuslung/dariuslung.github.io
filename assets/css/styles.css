@@ -581,6 +581,15 @@ video {
     max-width: 1536px;
   }
 }
+/* The one page width: nav, main and footer all use it, so their edges line up on every page. */
+.page-width {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  max-width: 48rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
 /* Section heading. Inside .numbered it gets an index from a CSS counter. */
 .section-title {
   display: flex;
@@ -881,10 +890,6 @@ video {
 .static {
   position: static;
 }
-.mx-auto {
-  margin-left: auto;
-  margin-right: auto;
-}
 .mb-1 {
   margin-bottom: 0.25rem;
 }
@@ -993,11 +998,8 @@ video {
 .min-w-0 {
   min-width: 0px;
 }
-.max-w-2xl {
-  max-width: 42rem;
-}
-.max-w-4xl {
-  max-width: 56rem;
+.max-w-3xl {
+  max-width: 48rem;
 }
 .max-w-\[26rem\] {
   max-width: 26rem;
@@ -1184,10 +1186,6 @@ video {
 .px-1 {
   padding-left: 0.25rem;
   padding-right: 0.25rem;
-}
-.px-6 {
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
 }
 .py-1 {
   padding-top: 0.25rem;

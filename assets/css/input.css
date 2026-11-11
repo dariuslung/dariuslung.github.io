@@ -72,6 +72,11 @@
 }
 
 @layer components {
+  /* The one page width: nav, main and footer all use it, so their edges line up on every page. */
+  .page-width {
+    @apply mx-auto w-full max-w-3xl px-6;
+  }
+
   /* Section heading. Inside .numbered it gets an index from a CSS counter. */
   .section-title {
     @apply flex items-baseline gap-3 text-2xl font-semibold tracking-wide;

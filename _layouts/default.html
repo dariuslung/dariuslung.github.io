@@ -40,12 +40,12 @@
 <body class="min-h-screen flex flex-col">
     {% include navbar.html %}
 
-    <main class="flex-grow w-full max-w-4xl mx-auto px-6 py-10">
+    <main class="page-width flex-grow py-10">
         {{ content }}
     </main>
 
     <footer class="border-t border-rule">
-        <div class="max-w-4xl mx-auto px-6 py-6 flex flex-wrap items-center justify-between gap-2 text-sm text-muted">
+        <div class="page-width py-6 flex flex-wrap items-center justify-between gap-2 text-sm text-muted">
             <span>&copy; {{ 'now' | date: '%Y' }} {{ site.title }}</span>
             <a class="hover:text-ink underline underline-offset-4" href="https://github.com/dariuslung/dariuslung.github.io">Source on GitHub</a>
         </div>
