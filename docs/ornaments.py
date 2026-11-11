@@ -1,6 +1,6 @@
 """Generates the hand-inked ornament shapes: tapered strokes, pointed arches, diamonds and thorns.
 Run: python3 ornaments.py <repo-root> <scratch-dir>"""
-import math, random, sys
+import math, random, re, sys
 
 def fmt(v): return f'{v:.2f}'.rstrip('0').rstrip('.')
 
@@ -47,7 +47,7 @@ def divider_line(colour='#000'):
     pts = top + bot[::-1]
     return svg(200, 8, f'<path d="{catmull(pts, closed=True)}" fill="{colour}"/>', ' preserveAspectRatio="none"')
 
-def divider_gem(colour='#000'):
+def divider_gem(colour='#000', core=None):
     """The bottom filigree's centre in miniature: a pointed oval (vesica) around a diamond, with a diamond at
     each tip and a small scroll curling up and down off each side (symmetrical on both axes)."""
     parts = []
@@ -62,9 +62,28 @@ def divider_gem(colour='#000'):
             poly = [(mx(x), my(y)) for x, y in _spline(curl, per=6)]
             parts.append(f'<path d="{_taper(poly, lambda t: 0.28 + 0.85 * (1 - t) ** 0.8)}" fill="{colour}"/>')
             parts.append(f'<circle cx="{fmt(mx(31.9))}" cy="{fmt(my(5.5))}" r="0.62" fill="{colour}"/>')
-    parts.append(_diamond(22, 10, 3.7, colour))
+    parts.append(_diamond(22, 10, 3.7, core or colour))
     parts.append(_diamond(22, 0.9, 1.3, colour)); parts.append(_diamond(22, 19.1, 1.3, colour))
     return svg(44, 20, ''.join(parts))
+
+def favicon_shard(bone='#E4DFD0', soul='#8EC9E8', tile='#090B10'):
+    """The shard simplified for 16-48px: a bold pointed oval round a diamond, on the dark tile. No curls or tips."""
+    parts = [f'<rect width="32" height="32" fill="{tile}"/>']
+    for mirror in (False, True):
+        mx = (lambda x: 32 - x) if mirror else (lambda x: x)
+        arc = [(16, 2.8), (21.8, 8.6), (24.4, 16), (21.8, 23.4), (16, 29.2)]
+        pts = [(mx(x), y) for x, y in _spline(arc, per=8)]
+        parts.append(f'<path d="{_taper(pts, lambda t: 0.9 + 3.3 * math.sin(math.pi * t) ** 0.9)}" fill="{bone}"/>')
+    parts.append(_diamond(16, 16, 6.6, soul))
+    return svg(32, 32, ''.join(parts))
+
+def apple_icon_svg(bone='#E4DFD0', soul='#8EC9E8', tile='#090B10', size=180, width=160):
+    """The full shard with its scrolls, centred on the dark tile, for the 180px Apple touch icon."""
+    h = width * 20 / 44
+    gem = divider_gem(bone, soul)
+    gem = re.sub(r'<svg [^>]*>', f'<svg x="{fmt((size - width) / 2)}" y="{fmt((size - h) / 2)}" width="{fmt(width)}" height="{fmt(h)}" viewBox="0 0 44 20">', gem, count=1)
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {size} {size}" width="{size}" height="{size}">'
+            f'<rect width="{size}" height="{size}" fill="{tile}"/>{gem}</svg>')
 
 # ---- filigree: heraldic scrollwork on a 400x48 canvas, mirrored about x=200 ----
 # Built from tapered strokes (filled outlines that swell and end in points), a strong centre motif,
@@ -198,6 +217,8 @@ if __name__ == '__main__':
     open(f'{out}/corner.svg', 'w').write(corner())
     open(f'{out}/divider-line.svg', 'w').write(divider_line())
     open(f'{out}/divider-gem.svg', 'w').write(divider_gem())
+    open(f'{root}/assets/img/favicon.svg', 'w').write(favicon_shard())
+    open(f'{scratch}/apple-touch-icon.svg', 'w').write(apple_icon_svg())
     open(f'{out}/filigree-top.svg', 'w').write(filigree(sw=3.4, flip=False, centre='arch'))
     open(f'{out}/filigree-bottom.svg', 'w').write(filigree(sw=3.4, flip=True, centre='shard'))
     # coloured copies for previews and the share image

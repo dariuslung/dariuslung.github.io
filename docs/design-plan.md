@@ -46,6 +46,8 @@ The filigree is heraldic, not a vine: tapered strokes that swell and end in poin
 
 `docs/ornaments.py` generates the shapes (jittered curves, tapered strokes, wobbly rings from fixed seeds). Re-run it to change them: `python3 docs/ornaments.py . <scratch-dir>`. The favicon, Apple icon and share image reuse them. Keep ornament sparse: dividers and major panels only, never on small cards or controls.
 
+The favicon is the shard too: `favicon_shard()` (a bold pointed oval round a diamond on the dark tile, simplified so it holds at 16px) writes `assets/img/favicon.svg`, and `apple_icon_svg()` draws the full shard with its scrolls for the 180px Apple icon. `favicon.ico` (16, 32, 48px) and `apple-touch-icon.png` are rasterised from those SVGs with resvg and ImageMagick; regenerate them whenever the shard changes.
+
 ### Typography
 
 - **Three families, self-hosted** as `woff2` in `assets/fonts/`, with `font-display: swap`; Inter and Cinzel are preloaded:
