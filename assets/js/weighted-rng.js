@@ -193,9 +193,23 @@ if(dstb_btn) dstb_btn.addEventListener("click", () => {
     const total_samples = d3.sum(data, d => d.frequency);
     const fmt_count = d3.format(",");
 
-    // Bars, each with a native tooltip showing the exact count and share
+    // Bars are hatched in ink, like a pen drawing, and carry a native tooltip with the exact count and share
+    svg.append("defs")
+        .append("pattern")
+        .attr("id", "bar-hatch")
+        .attr("width", 5)
+        .attr("height", 5)
+        .attr("patternUnits", "userSpaceOnUse")
+        .attr("patternTransform", "rotate(45)")
+        .append("line")
+        .attr("x1", 0).attr("y1", 0).attr("x2", 0).attr("y2", 5)
+        .attr("stroke-width", 2)
+        .style("stroke", "rgb(var(--c-ink))");
+
     svg.append("g")
-        .style("fill", "rgb(var(--c-ink))")
+        .style("fill", "url(#bar-hatch)")
+        .style("stroke", "rgb(var(--c-ink))")
+        .attr("stroke-width", 1.5)
         .selectAll("rect")
         .data(data)
         .join("rect")

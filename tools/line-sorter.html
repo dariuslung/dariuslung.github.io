@@ -5,7 +5,7 @@ description: Paste a list with one entry per line and sort it alphabetically, na
 ---
 
 <div class="max-w-4xl mx-auto">
-    <header class="mb-8 border-b border-rule pb-6 flex items-center gap-4">
+    <header class="mb-6 flex items-center gap-4">
         <span class="flex items-center justify-center w-12 h-12 bg-ink text-paper shrink-0">
             <svg class="w-6 h-6 block" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"></path></svg>
         </span>
@@ -15,7 +15,9 @@ description: Paste a list with one entry per line and sort it alphabetically, na
         </div>
     </header>
 
-    <div class="panel p-4 sm:p-6 mb-10">
+    <div class="divider mb-8" aria-hidden="true"><span></span></div>
+
+    <div class="panel flourish p-4 sm:p-6 mb-10">
         <label for="ls_input" class="label block mb-2">Entries (one per line)</label>
         <textarea id="ls_input" rows="12" spellcheck="false" autocomplete="off" class="field w-full font-mono resize-y" placeholder="banana&#10;Apple&#10;cherry"></textarea>
 

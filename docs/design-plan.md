@@ -6,7 +6,7 @@ Move `dariuslung.github.io` off the generic Tailwind card look and onto a calm, 
 
 ## Principles
 
-1. **One idea, held back.** The reference is a well-set technical document: a clear grid, hairline rules, small monospace index numbers. That's the whole concept. No patch bays, rack modules, VU meters, telemetry footers, or `SYS.*` labels.
+1. **One idea, held back.** A well-set document with hand-inked detail: a clear grid, hairline rules, a few drawn ornaments. No patch bays, rack modules, VU meters, telemetry footers, or `SYS.*` labels, and no illustrated backgrounds.
 2. **Instant feedback.** Colour and border changes on hover are immediate (`transition: none`). Motion appears only in the 1px press on `:active`.
 3. **Nothing fake.** No made-up metrics, build info, or "latency" readouts. Every number on the page has to be real.
 4. **Content over chrome.** A projects section and a CV link do more for "professional" than any widget.
@@ -16,21 +16,31 @@ Move `dariuslung.github.io` off the generic Tailwind card look and onto a calm, 
 
 ## Design tokens
 
+> **Revision (Hollow Knight direction).** The original orange-on-paper palette and the "no decoration" rule were replaced: the site now takes its palette and hand-inked detail from Hollow Knight's Hallownest. Layout, typography, instant hover and accessibility rules are unchanged. No game art, logos or characters are used; the ornaments are original shapes.
+
 ### Colour
 
-| Token | Light | Dark | Use |
+| Token | Light (parchment) | Dark (Hallownest abyss) | Use |
 | :--- | :--- | :--- | :--- |
-| `paper` / `carbon` (bg) | `#F5F3EE` | `#0B0D10` | Page background |
-| `surface` | `#FFFFFF` | `#12151A` | Cards, panels |
-| `ink` (text) | `#16181C` | `#E7E5E0` | Body text |
-| `muted` | `#5F6368` | `#9AA0A6` | Secondary text, labels |
-| `rule` | `#D6D3CB` | `#262A31` | Hairlines, borders |
-| `signal` (accent fill) | `#FF4F00` | `#FF4F00` | Fills, borders, markers, focus rings |
-| `signal-text` | `#C23B00` | `#FF6A26` | Accent *text* and links |
+| `paper` (bg) | `#E9E2CE` | `#090B10` | Page background |
+| `surface` | `#F4EEDD` | `#10141C` | Cards, panels |
+| `ink` (text) | `#15171D` | `#E4DFD0` (bone) | Body text |
+| `muted` | `#5C5748` | `#98A0B0` | Secondary text, labels |
+| `rule` | `#CBC1A5` | `#1F2735` | Dividers, panel borders |
+| `rule-strong` | `#7F775F` | `#5B6A82` | Control borders, ornaments (3:1 or better) |
+| `signal` (accent fill) | `#6FB0D0` | `#8EC9E8` (soul blue) | Fills such as the primary button |
+| `signal-text` | `#1D5B7C` | `#9ED3EE` | Accent text, links, focus rings, hover glow |
+| `on-signal` | `#15171D` | `#090B10` | Text on `signal` fills |
 
-- `#FF4F00` on paper is about **3:1**, which fails AA for text. Use it only for fills, borders and markers. Accent text in light mode uses `#C23B00` (about 4.8:1 on paper).
-- **One accent sitewide.** Spotify green `#1DB954` appears only inside the Spotify sorter. No second green for "status".
-- Check every final pairing with a contrast checker before shipping.
+- Measured contrast: body text 13.9:1 or better, muted 5.6:1 or better, accent text 5.7:1 or better, control borders 3.3:1 or better, in both themes. Re-check any new pairing.
+- The light theme's pale `signal` fill is only 1.9:1 against parchment, so `.btn-primary` gets a `signal-text` border.
+- **One accent sitewide.** Spotify green `#1DB954` appears only inside the Spotify sorter.
+
+### Ornament
+
+Hand-inked shapes live in `assets/img/ornaments/` (`corner.svg`, `divider-line.svg`, `divider-gem.svg`) and are applied as CSS masks, so they take the theme colours: `.divider` (section and page-header dividers) and `.flourish` (corner brackets on major panels). The avatar's double ring is the same kind of shape, inlined in `index.html`. The chart bars use an ink cross-hatch.
+
+`docs/ornaments.py` generates the shapes (jittered curves, tapered strokes, wobbly rings from fixed seeds). Re-run it to change them: `python3 docs/ornaments.py . <scratch-dir>`. The favicon, Apple icon and share image reuse them. Keep ornament sparse: dividers and major panels only, never on small cards or controls.
 
 ### Typography
 
@@ -48,13 +58,12 @@ Move `dariuslung.github.io` off the generic Tailwind card look and onto a calm, 
     @apply relative bg-surface border border-rule;
     transition: transform 60ms ease-out;
   }
-  .card:hover {
-    @apply border-ink;
-    box-shadow: 2px 2px 0 0 theme('colors.ink'); /* explicit colour, not currentColor */
+  .card:hover {                   /* soul glow, applied instantly */
+    @apply border-signal-text;
+    box-shadow: 0 0 0 1px rgb(var(--c-signal-text)), 0 0 18px -4px rgb(var(--c-signal) / 0.5);
   }
   .card:active {
     transform: translateY(1px);   /* whole pixels only, so text stays sharp */
-    box-shadow: 1px 1px 0 0 theme('colors.ink');
   }
   .card:focus-visible,
   .btn:focus-visible {

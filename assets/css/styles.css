@@ -500,29 +500,30 @@ video {
   display: none;
 }
   /* Colour tokens as space-separated RGB so Tailwind opacity modifiers work. */
+  /* Parchment (light) and Hallownest abyss (dark). Names stay stable; only the values change per theme. */
   :root {
-    --c-paper: 245 243 238;
-    --c-surface: 255 255 255;
-    --c-ink: 22 24 28;
-    --c-muted: 95 99 104;
-    --c-rule: 214 211 203;
-    --c-rule-strong: 135 133 128;
-    --c-signal: 255 79 0;
-    --c-signal-text: 194 59 0;
-    --c-on-signal: 22 24 28;
+    --c-paper: 233 226 206;
+    --c-surface: 244 238 221;
+    --c-ink: 21 23 29;
+    --c-muted: 92 87 72;
+    --c-rule: 203 193 165;
+    --c-rule-strong: 127 119 95;
+    --c-signal: 111 176 208;
+    --c-signal-text: 29 91 124;
+    --c-on-signal: 21 23 29;
     color-scheme: light;
   }
 
   .dark {
-    --c-paper: 11 13 16;
-    --c-surface: 23 27 33;
-    --c-ink: 231 229 224;
-    --c-muted: 154 160 166;
-    --c-rule: 48 53 61;
-    --c-rule-strong: 104 110 118;
-    --c-signal: 255 79 0;
-    --c-signal-text: 255 106 38;
-    --c-on-signal: 22 24 28;
+    --c-paper: 9 11 16;
+    --c-surface: 16 20 28;
+    --c-ink: 228 223 208;
+    --c-muted: 152 160 176;
+    --c-rule: 31 39 53;
+    --c-rule-strong: 91 106 130;
+    --c-signal: 142 201 232;
+    --c-signal-text: 158 211 238;
+    --c-on-signal: 9 11 16;
     color-scheme: dark;
   }
 
@@ -535,7 +536,7 @@ video {
     counter-reset: section;
 }
 
-  /* signal-text rather than signal: the brighter orange is under 3:1 on paper. */
+  /* signal-text rather than signal: the light theme's pale fill is under 3:1 on parchment. */
   :focus-visible {
   outline-style: solid;
   outline-width: 2px;
@@ -634,7 +635,7 @@ video {
 }
 .card:active {
     transform: translateY(1px);
-    box-shadow: 1px 1px 0 0 rgb(var(--c-ink));
+    box-shadow: 0 0 0 1px rgb(var(--c-signal-text));
   }
 .\!btn {
   display: inline-flex;
@@ -690,7 +691,7 @@ video {
   }
 .btn-primary {
   --tw-border-opacity: 1;
-  border-color: rgb(var(--c-signal) / var(--tw-border-opacity, 1));
+  border-color: rgb(var(--c-signal-text) / var(--tw-border-opacity, 1));
   --tw-bg-opacity: 1;
   background-color: rgb(var(--c-signal) / var(--tw-bg-opacity, 1));
   --tw-text-opacity: 1;
@@ -753,6 +754,56 @@ video {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(var(--c-signal-text) / var(--tw-ring-opacity, 1));
 }
+/* Hand-inked ornaments (assets/img/ornaments/*.svg), used as masks so they take the theme colours. */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.divider::before,
+  .divider::after {
+    content: '';
+    flex: 1 1 0;
+    height: 8px;
+    background-color: rgb(var(--c-rule-strong));
+    -webkit-mask: url('../img/ornaments/divider-line.svg') center / 100% 100% no-repeat;
+    mask: url('../img/ornaments/divider-line.svg') center / 100% 100% no-repeat;
+  }
+.divider::after {
+    transform: scaleX(-1);
+  }
+.divider > span {
+    flex: none;
+    width: 44px;
+    height: 20px;
+    background-color: rgb(var(--c-signal-text));
+    -webkit-mask: url('../img/ornaments/divider-gem.svg') center / contain no-repeat;
+    mask: url('../img/ornaments/divider-gem.svg') center / contain no-repeat;
+  }
+/* Inked corner brackets on the top-left and bottom-right of a panel. */
+.flourish {
+    position: relative;
+  }
+.flourish::before,
+  .flourish::after {
+    content: '';
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    pointer-events: none;
+    background-color: rgb(var(--c-rule-strong));
+    -webkit-mask: url('../img/ornaments/corner.svg') center / contain no-repeat;
+    mask: url('../img/ornaments/corner.svg') center / contain no-repeat;
+  }
+.flourish::before {
+    top: -1px;
+    left: -1px;
+  }
+.flourish::after {
+    bottom: -1px;
+    right: -1px;
+    transform: rotate(180deg);
+  }
 /* Small monospace metadata tag. */
 .tag {
   display: inline-block;
@@ -772,12 +823,12 @@ video {
 @media (hover: hover) {
     .card:hover {
     --tw-border-opacity: 1;
-    border-color: rgb(var(--c-ink) / var(--tw-border-opacity, 1));
-      box-shadow: 2px 2px 0 0 rgb(var(--c-ink));
+    border-color: rgb(var(--c-signal-text) / var(--tw-border-opacity, 1));
+      box-shadow: 0 0 0 1px rgb(var(--c-signal-text)), 0 0 18px -4px rgb(var(--c-signal) / 0.5);
   }
     .btn:hover {
     --tw-border-opacity: 1;
-    border-color: rgb(var(--c-ink) / var(--tw-border-opacity, 1));
+    border-color: rgb(var(--c-signal-text) / var(--tw-border-opacity, 1));
   }
     .btn-primary:hover,
     .btn-spotify:hover {
@@ -786,7 +837,7 @@ video {
   }
     .\!btn:hover {
     --tw-border-opacity: 1;
-    border-color: rgb(var(--c-ink) / var(--tw-border-opacity, 1));
+    border-color: rgb(var(--c-signal-text) / var(--tw-border-opacity, 1));
   }
   }
 .sr-only {
@@ -800,6 +851,9 @@ video {
   white-space: nowrap;
   border-width: 0;
 }
+.pointer-events-none {
+  pointer-events: none;
+}
 .static {
   position: static;
 }
@@ -808,6 +862,9 @@ video {
 }
 .relative {
   position: relative;
+}
+.-inset-2 {
+  inset: -0.5rem;
 }
 .inset-0 {
   inset: 0px;
@@ -906,6 +963,9 @@ video {
 .h-6 {
   height: 1.5rem;
 }
+.h-\[calc\(100\%\+16px\)\] {
+  height: calc(100% + 16px);
+}
 .h-\[calc\(100\%-12px\)\] {
   height: calc(100% - 12px);
 }
@@ -941,6 +1001,9 @@ video {
 }
 .w-9 {
   width: 2.25rem;
+}
+.w-\[calc\(100\%\+16px\)\] {
+  width: calc(100% + 16px);
 }
 .w-\[calc\(100\%-12px\)\] {
   width: calc(100% - 12px);
@@ -1133,8 +1196,8 @@ video {
 .bg-signal\/10 {
   background-color: rgb(var(--c-signal) / 0.1);
 }
-.bg-\[conic-gradient\(from_0deg\2c rgb\(var\(--c-rule\)\)_0_70\%\2c rgb\(var\(--c-signal\)\)_70\%_100\%\)\] {
-  background-image: conic-gradient(from 0deg,rgb(var(--c-rule)) 0 70%,rgb(var(--c-signal)) 70% 100%);
+.bg-\[conic-gradient\(from_0deg\2c transparent_0_70\%\2c rgb\(var\(--c-signal\)\)_70\%_100\%\)\] {
+  background-image: conic-gradient(from 0deg,transparent 0 70%,rgb(var(--c-signal)) 70% 100%);
 }
 .fill-current {
   fill: currentColor;
@@ -1196,9 +1259,6 @@ video {
 }
 .py-6 {
   padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
-}
-.pb-6 {
   padding-bottom: 1.5rem;
 }
 .pl-4 {
@@ -1286,6 +1346,10 @@ video {
   --tw-text-opacity: 1;
   color: rgb(239 68 68 / var(--tw-text-opacity, 1));
 }
+.text-rule-strong {
+  --tw-text-opacity: 1;
+  color: rgb(var(--c-rule-strong) / var(--tw-text-opacity, 1));
+}
 .text-signal-text {
   --tw-text-opacity: 1;
   color: rgb(var(--c-signal-text) / var(--tw-text-opacity, 1));
@@ -1302,6 +1366,11 @@ video {
 }
 .accent-signal {
   accent-color: rgb(var(--c-signal) / 1);
+}
+.ring {
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
 }
 .ring-1 {
   --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
@@ -1507,14 +1576,6 @@ video {
 
   .md\:self-start {
     align-self: flex-start;
-  }
-
-  .md\:border-t-0 {
-    border-top-width: 0px;
-  }
-
-  .md\:pt-0 {
-    padding-top: 0px;
   }
 }
 

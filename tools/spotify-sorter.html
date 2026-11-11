@@ -5,7 +5,7 @@ permalink: /tools/spotify-sorter/
 ---
 
 <div class="max-w-4xl mx-auto" id="app-container">
-    <header class="mb-8 border-b border-rule pb-6 flex items-center gap-4">
+    <header class="mb-6 flex items-center gap-4">
         <div class="flex items-center justify-center w-12 h-12 bg-[#1DB954] text-on-signal shrink-0">
             <svg class="w-6 h-6 fill-current shrink-0 block" aria-hidden="true" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12 0C5.376 0 0 5.376 0 12s5.376 12 12 12 12-5.376 12-12S18.624 0 12 0zm5.521 17.341c-.217.357-.68.472-1.037.254-2.837-1.733-6.408-2.126-10.613-1.164-.403.092-.806-.16-.898-.563-.092-.403.16-.806.563-.898 4.607-1.052 8.552-.6 11.731 1.344.357.218.472.68.254 1.037zm1.473-3.278c-.274.446-.856.587-1.302.313-3.246-1.995-8.196-2.574-12.036-1.408-.504.153-1.037-.133-1.19-.637-.153-.504.133-1.037.637-1.19 4.385-1.332 9.839-.687 13.578 1.62.446.274.587.856.313 1.302zm.126-3.416C15.228 8.48 8.8 8.267 5.12 9.385c-.61.185-1.252-.167-1.437-.777-.185-.61.167-1.252.777-1.437 4.232-1.285 11.336-1.035 15.892 1.671.55.327.732 1.042.405 1.592-.327.55-1.042.732-1.592.405z"/>
@@ -17,7 +17,9 @@ permalink: /tools/spotify-sorter/
         </div>
     </header>
 
-    <div id="section-login" class="panel p-6 mb-6">
+    <div class="divider mb-8" aria-hidden="true"><span></span></div>
+
+    <div id="section-login" class="panel flourish p-6 mb-6">
         <h2 class="text-xl font-semibold mb-4">Connect to Spotify</h2>
         <p class="text-sm text-muted mb-4">Securely authenticate with your Spotify account to view and organize your playlists.</p>
         
@@ -45,7 +47,7 @@ permalink: /tools/spotify-sorter/
         <div id="playlists-container" class="flex flex-col gap-3"></div>
     </div>
 
-    <div id="section-progress" class="hidden panel p-6">
+    <div id="section-progress" class="hidden panel flourish p-6">
         <h2 id="progress-title" class="text-xl font-semibold mb-2">Sorting in progress...</h2>
         <p id="progress-status" class="text-sm text-muted mb-6">Initializing data fetch...</p>
         
