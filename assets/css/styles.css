@@ -1297,6 +1297,9 @@ video {
 .pt-6 {
   padding-top: 1.5rem;
 }
+.text-center {
+  text-align: center;
+}
 .font-display {
   font-family: Cinzel, "Trajan Pro", Georgia, serif;
 }
@@ -1604,14 +1607,6 @@ video {
 
   .md\:grid-cols-\[13rem_minmax\(0\2c 1fr\)\] {
     grid-template-columns: 13rem minmax(0,1fr);
-  }
-
-  .md\:flex-col {
-    flex-direction: column;
-  }
-
-  .md\:items-start {
-    align-items: flex-start;
   }
 
   .md\:gap-12 {

@@ -8,7 +8,7 @@ title: Home
 <div class="md:grid md:grid-cols-[13rem_minmax(0,1fr)] md:gap-12">
 
 <!-- Intro -->
-<section class="flex flex-col sm:flex-row sm:items-center md:flex-col md:items-start gap-9 mb-14 md:mb-0 md:sticky md:top-10 md:self-start">
+<section class="flex flex-col items-center text-center gap-9 mb-14 md:mb-0 md:sticky md:top-10 md:self-start">
     <div class="relative w-28 h-28 md:w-36 md:h-36 shrink-0">
         <div class="absolute inset-0 rounded-full animate-[spin_12s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_70%,rgb(var(--c-signal))_70%_100%)]" aria-hidden="true"></div>
         <div class="absolute inset-[3px] rounded-full bg-paper"></div>
@@ -21,7 +21,7 @@ title: Home
         <h1 class="mt-2 text-4xl font-semibold uppercase leading-tight tracking-wider">Darius <span class="block">Lung</span></h1>
         <p class="label mt-3">Networked systems<br>Computer science</p>
         <div class="filigree-bottom mt-3" aria-hidden="true"></div>
-        <div class="flex flex-wrap gap-2 mt-4">
+        <div class="flex flex-wrap justify-center gap-2 mt-4">
             <a href="#contact" class="btn btn-primary">Contact</a>
             {% if cv_file.size > 0 %}<a href="/assets/cv.pdf" class="btn">CV</a>{% endif %}
         </div>
