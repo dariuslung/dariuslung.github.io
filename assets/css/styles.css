@@ -779,7 +779,7 @@ video {
   }
 .divider > span {
     flex: none;
-    width: 62px;
+    width: 34px;
     height: 28px;
     background-color: rgb(var(--c-signal-text));
     -webkit-mask: url('../img/ornaments/divider-gem.svg') center / contain no-repeat;
@@ -993,11 +993,14 @@ video {
 .min-w-0 {
   min-width: 0px;
 }
+.max-w-2xl {
+  max-width: 42rem;
+}
 .max-w-4xl {
   max-width: 56rem;
 }
-.max-w-\[13rem\] {
-  max-width: 13rem;
+.max-w-\[26rem\] {
+  max-width: 26rem;
 }
 .max-w-prose {
   max-width: 65ch;
@@ -1227,6 +1230,10 @@ video {
   font-size: 2.25rem;
   line-height: 2.5rem;
 }
+.text-5xl {
+  font-size: 3rem;
+  line-height: 1;
+}
 .text-base {
   font-size: 1rem;
   line-height: 1.5rem;
@@ -1448,6 +1455,11 @@ video {
     padding: 1.5rem;
   }
 
+  .sm\:text-6xl {
+    font-size: 3.75rem;
+    line-height: 1;
+  }
+
   .sm\:text-base {
     font-size: 1rem;
     line-height: 1.5rem;
@@ -1457,44 +1469,17 @@ video {
     font-size: 1.125rem;
     line-height: 1.75rem;
   }
+
+  .sm\:text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
 }
 
 @media (min-width: 768px) {
 
-  .md\:sticky {
-    position: sticky;
-  }
-
-  .md\:top-10 {
-    top: 2.5rem;
-  }
-
-  .md\:mb-0 {
-    margin-bottom: 0px;
-  }
-
-  .md\:grid {
-    display: grid;
-  }
-
-  .md\:hidden {
-    display: none;
-  }
-
   .md\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .md\:grid-cols-\[13rem_minmax\(0\2c 1fr\)\] {
-    grid-template-columns: 13rem minmax(0,1fr);
-  }
-
-  .md\:gap-12 {
-    gap: 3rem;
-  }
-
-  .md\:self-start {
-    align-self: flex-start;
   }
 }
 

@@ -159,7 +159,7 @@
   }
   .divider > span {
     flex: none;
-    width: 62px;
+    width: 34px;
     height: 28px;
     background-color: rgb(var(--c-signal-text));
     -webkit-mask: url('../img/ornaments/divider-gem.svg') center / contain no-repeat;

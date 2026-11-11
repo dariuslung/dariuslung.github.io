@@ -4,17 +4,14 @@ title: Home
 ---
 {% assign cv_file = site.static_files | where: "path", "/assets/cv.pdf" %}
 
-<!-- From md up: identity column on the left, sections on the right, so everything shares the container's edges. -->
-<div class="md:grid md:grid-cols-[13rem_minmax(0,1fr)] md:gap-12">
-
-<!-- Intro -->
-<section class="flex flex-col items-center text-center mb-14 md:mb-0 md:sticky md:top-10 md:self-start">
-    <div class="w-full max-w-[13rem]">
+<!-- Title card: the name between two filigrees, centred -->
+<section class="flex flex-col items-center text-center mb-14">
+    <div class="w-full max-w-[26rem]">
         <div class="filigree" aria-hidden="true"></div>
-        <h1 class="mt-2 text-4xl font-semibold uppercase leading-tight tracking-wider">Darius <span class="block">Lung</span></h1>
-        <p class="label mt-3">Networked systems<br>Computer science</p>
-        <div class="filigree-bottom mt-3" aria-hidden="true"></div>
-        <div class="flex flex-wrap justify-center gap-2 mt-4">
+        <h1 class="mt-3 text-5xl sm:text-6xl font-semibold uppercase leading-tight tracking-wider">Darius <span class="block">Lung</span></h1>
+        <p class="label mt-4 sm:text-sm">Networked systems &middot; Computer science</p>
+        <div class="filigree-bottom mt-4" aria-hidden="true"></div>
+        <div class="flex flex-wrap justify-center gap-2 mt-6">
             <a href="#contact" class="btn btn-primary">Contact</a>
             {% if cv_file.size > 0 %}<a href="/assets/cv.pdf" class="btn">CV</a>{% endif %}
         </div>
@@ -22,11 +19,11 @@ title: Home
 </section>
 
 <!-- Section numbers only appear once there are three sections (i.e. Projects has entries). -->
-<div class="{% if site.data.projects.size > 0 %}numbered{% endif %}">
+<div class="mx-auto max-w-2xl {% if site.data.projects.size > 0 %}numbered{% endif %}">
 
 <!-- About -->
 <section id="about" class="mb-14">
-    <div class="divider mb-6 md:hidden" aria-hidden="true"><span></span></div>
+    <div class="divider mb-6" aria-hidden="true"><span></span></div>
     <h2 class="section-title mb-5">About</h2>
     <div class="space-y-4 leading-relaxed">
         <p>
@@ -96,7 +93,6 @@ title: Home
     </div>
 </section>
 
-</div>
 </div>
 
 <script>

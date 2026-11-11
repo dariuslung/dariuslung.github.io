@@ -48,20 +48,17 @@ def divider_line(colour='#000'):
     return svg(200, 8, f'<path d="{catmull(pts, closed=True)}" fill="{colour}"/>', ' preserveAspectRatio="none"')
 
 def divider_gem(colour='#000'):
-    """The bottom filigree's centre in miniature: a pointed oval (vesica) around a diamond, with a diamond at
-    each tip and a tapering hairline running out to a small diamond on each side."""
+    """The bottom filigree's centre in miniature: a pointed oval (vesica) around a diamond, with a diamond
+    at each tip. The long divider lines supply the sides."""
     parts = []
     for mirror in (False, True):
-        mx = (lambda x: 44 - x) if mirror else (lambda x: x)
-        arc = [(22, 1.8), (24.7, 5.4), (25.9, 10), (24.7, 14.6), (22, 18.2)]
+        mx = (lambda x: 24 - x) if mirror else (lambda x: x)
+        arc = [(12, 1.8), (14.7, 5.4), (15.9, 10), (14.7, 14.6), (12, 18.2)]
         pts = [(mx(x), y) for x, y in _spline(arc, per=6)]
         parts.append(f'<path d="{_taper(pts, lambda t: 0.4 + 1.5 * math.sin(math.pi * t) ** 0.9)}" fill="{colour}"/>')
-        hair = [(mx(x), y) for x, y in _spline([(26.4, 10), (34, 10.05), (40.2, 10)], per=5)]
-        parts.append(f'<path d="{_taper(hair, lambda t: 1.3 * (1 - t) ** 0.7 + 0.1)}" fill="{colour}"/>')
-        parts.append(_diamond(mx(41.6), 10, 1.7, colour))
-    parts.append(_diamond(22, 10, 3.7, colour))
-    parts.append(_diamond(22, 0.9, 1.3, colour)); parts.append(_diamond(22, 19.1, 1.3, colour))
-    return svg(44, 20, ''.join(parts))
+    parts.append(_diamond(12, 10, 3.7, colour))
+    parts.append(_diamond(12, 0.9, 1.3, colour)); parts.append(_diamond(12, 19.1, 1.3, colour))
+    return svg(24, 20, ''.join(parts))
 
 # ---- filigree: heraldic scrollwork on a 400x48 canvas, mirrored about x=200 ----
 # Built from tapered strokes (filled outlines that swell and end in points), a strong centre motif,
