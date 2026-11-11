@@ -48,17 +48,23 @@ def divider_line(colour='#000'):
     return svg(200, 8, f'<path d="{catmull(pts, closed=True)}" fill="{colour}"/>', ' preserveAspectRatio="none"')
 
 def divider_gem(colour='#000'):
-    """The bottom filigree's centre in miniature: a pointed oval (vesica) around a diamond, with a diamond
-    at each tip. The long divider lines supply the sides."""
+    """The bottom filigree's centre in miniature: a pointed oval (vesica) around a diamond, with a diamond at
+    each tip and a small scroll curling up and down off each side (symmetrical on both axes)."""
     parts = []
+    curl = [(25.9, 9.4), (28.3, 9.2), (31.2, 8.8), (33.6, 7.4), (34.2, 5.2), (32.6, 3.7), (30.6, 4.3), (30.2, 6.1), (31.7, 6.8), (32.5, 5.8)]
     for mirror in (False, True):
-        mx = (lambda x: 24 - x) if mirror else (lambda x: x)
-        arc = [(12, 1.8), (14.7, 5.4), (15.9, 10), (14.7, 14.6), (12, 18.2)]
+        mx = (lambda x: 44 - x) if mirror else (lambda x: x)
+        arc = [(22 + (x - 12), y) for x, y in [(12, 1.8), (14.7, 5.4), (15.9, 10), (14.7, 14.6), (12, 18.2)]]
         pts = [(mx(x), y) for x, y in _spline(arc, per=6)]
         parts.append(f'<path d="{_taper(pts, lambda t: 0.4 + 1.5 * math.sin(math.pi * t) ** 0.9)}" fill="{colour}"/>')
-    parts.append(_diamond(12, 10, 3.7, colour))
-    parts.append(_diamond(12, 0.9, 1.3, colour)); parts.append(_diamond(12, 19.1, 1.3, colour))
-    return svg(24, 20, ''.join(parts))
+        for flip in (False, True):
+            my = (lambda y: 20 - y) if flip else (lambda y: y)
+            poly = [(mx(x), my(y)) for x, y in _spline(curl, per=6)]
+            parts.append(f'<path d="{_taper(poly, lambda t: 0.28 + 0.85 * (1 - t) ** 0.8)}" fill="{colour}"/>')
+            parts.append(f'<circle cx="{fmt(mx(31.9))}" cy="{fmt(my(5.5))}" r="0.62" fill="{colour}"/>')
+    parts.append(_diamond(22, 10, 3.7, colour))
+    parts.append(_diamond(22, 0.9, 1.3, colour)); parts.append(_diamond(22, 19.1, 1.3, colour))
+    return svg(44, 20, ''.join(parts))
 
 # ---- filigree: heraldic scrollwork on a 400x48 canvas, mirrored about x=200 ----
 # Built from tapered strokes (filled outlines that swell and end in points), a strong centre motif,
