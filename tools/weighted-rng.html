@@ -58,52 +58,8 @@ title: Weighted RNG
         <p id="rng_prob" class="font-mono text-sm text-muted mt-1"></p>
     </div>
 
-    <div id="dstb_container"class="panel w-full mb-12 overflow-hidden p-6 empty:hidden"></div>
+    <div id="dstb_container" class="panel w-full mb-10 overflow-hidden p-6 empty:hidden"></div>
 
-    <section class="panel flourish p-6 sm:p-8">
-        <h2 class="text-xl font-semibold mb-8 flex items-center gap-2">
-            <svg class="w-5 h-5 text-signal-text" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
-            How it works
-        </h2>
-
-        <div class="mb-10">
-            <h3 class="text-base font-semibold mb-1">Pick Random</h3>
-            <p class="mb-3 flex gap-1.5"><span class="tag">O(n) time</span><span class="tag">O(1) space</span></p>
-            <p class="text-muted mb-4 text-sm leading-relaxed">Only one random number is required to determine the index of the selected label. The algorithm uses a cumulative sum approach:</p>
-
-            <div class="bg-paper border border-rule p-5 font-mono text-sm overflow-x-auto">
-                <ol class="list-decimal list-inside space-y-2 marker:text-muted">
-                    <li>Get total of all weights.</li>
-                    <li>Generate <span class="text-signal-text">rng</span> = random(0, total_weight).</li>
-                    <li>For each label: <br>
-                        <span class="ml-6 border-l-2 border-rule pl-4 block mt-2 text-muted">
-                        <span class="text-signal-text">sum</span> += weight<br>
-                        if <span class="text-signal-text">rng</span> &lt; <span class="text-signal-text">sum</span>: return current_label
-                        </span>
-                    </li>
-                </ol>
-            </div>
-        </div>
-
-        <div>
-            <h3 class="text-base font-semibold mb-1">Plot Distribution</h3>
-            <p class="mb-3 flex gap-1.5"><span class="tag">O(s log n) time</span><span class="tag">O(n) space</span></p>
-            <p class="text-muted mb-4 text-sm leading-relaxed">For a sample size of 1,000,000, iterating O(n) every time is slow. Instead, we pre-calculate an array of cumulative sums and use binary search:</p>
-
-            <div class="bg-paper border border-rule p-5 font-mono text-sm overflow-x-auto">
-                <ol class="list-decimal list-inside space-y-2 marker:text-muted">
-                    <li>Pre-calculate array <span class="text-signal-text">acc</span> containing cumulative weights.</li>
-                    <li>Loop 1,000,000 times: <br>
-                        <span class="ml-6 border-l-2 border-rule pl-4 block mt-2 text-muted">
-                        Generate <span class="text-signal-text">rng</span> = random(0, total_weight).<br>
-                        <span class="text-signal-text">index</span> = binarySearch(<span class="text-signal-text">acc</span>, <span class="text-signal-text">rng</span>)<br>
-                        results[<span class="text-signal-text">index</span>].frequency++
-                        </span>
-                    </li>
-                </ol>
-            </div>
-        </div>
-    </section>
 </div>
 
 <script type="module" src="/assets/js/weighted-rng.js"></script>
