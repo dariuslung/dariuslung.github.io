@@ -856,6 +856,105 @@ video {
   --tw-text-opacity: 1;
   color: rgb(var(--c-muted) / var(--tw-text-opacity, 1));
 }
+/* Ambient side-gutter Soul Motes (home page only, strictly outside the 48rem .page-width column). */
+.soul-motes {
+    --m-scale: 0.62;
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+.dark .soul-motes {
+    --m-scale: 1;
+  }
+.soul-gutter {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: calc((100vw - 48rem) / 2);
+    overflow: hidden;
+  }
+.soul-gutter-left {
+    left: 0;
+    -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 2.5rem), transparent 100%);
+    mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 2.5rem), transparent 100%);
+  }
+.soul-gutter-right {
+    right: 0;
+    -webkit-mask-image: linear-gradient(to left, #000 0, #000 calc(100% - 2.5rem), transparent 100%);
+    mask-image: linear-gradient(to left, #000 0, #000 calc(100% - 2.5rem), transparent 100%);
+  }
+.soul-gutter-left .mote {
+    left: var(--x);
+  }
+.soul-gutter-right .mote {
+    right: var(--x);
+  }
+.mote {
+    position: absolute;
+    bottom: -2rem;
+    opacity: 0;
+    animation: mote-rise var(--dur, 20s) linear var(--del, 0s) infinite;
+  }
+.mote > i {
+    display: block;
+    font-style: normal;
+    animation: mote-sway var(--swd, 8s) ease-in-out var(--swdel, 0s) infinite alternate;
+  }
+.mote-signal {
+    --m-tone: var(--c-signal-text);
+  }
+.dark .mote-signal {
+    --m-tone: var(--c-signal);
+  }
+.mote-bone {
+    --m-tone: var(--c-rule-strong);
+  }
+.dark .mote-bone {
+    --m-tone: var(--c-ink);
+  }
+.mote-orb {
+    width: var(--sz, 9px);
+    height: var(--sz, 9px);
+    background: radial-gradient(
+      circle,
+      rgb(var(--m-tone) / 0.95) 0%,
+      rgb(var(--m-tone) / 0.65) 35%,
+      transparent 60%
+    );
+  }
+.dark .mote-orb {
+    background: radial-gradient(
+      circle,
+      rgb(var(--m-tone) / 1) 0%,
+      rgb(var(--m-tone) / 0.55) 26%,
+      rgb(var(--m-tone) / 0.14) 55%,
+      transparent 75%
+    );
+  }
+.mote-gem {
+    position: relative;
+    width: calc(var(--sz, 5px) * 2.6);
+    height: calc(var(--sz, 5px) * 4.2);
+  }
+.dark .mote-gem {
+    background: radial-gradient(
+      ellipse at center,
+      rgb(var(--m-tone) / 0.38) 0%,
+      rgb(var(--m-tone) / 0.1) 45%,
+      transparent 72%
+    );
+  }
+.mote-gem::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: var(--sz, 5px);
+    height: calc(var(--sz, 5px) * 1.75);
+    background-color: rgb(var(--m-tone));
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  }
 @media (hover: hover) {
     .card:hover {
     --tw-border-opacity: 1;
@@ -889,6 +988,12 @@ video {
 }
 .static {
   position: static;
+}
+.relative {
+  position: relative;
+}
+.z-10 {
+  z-index: 10;
 }
 .mb-1 {
   margin-bottom: 0.25rem;
@@ -1365,6 +1470,35 @@ video {
   src: url('../fonts/jetbrains-mono-latin-400-normal.woff2') format('woff2');
 }
 
+@keyframes mote-rise {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  14%, 82% {
+    opacity: calc(var(--a, 0.34) * var(--m-scale, 1));
+  }
+  100% {
+    transform: translate3d(0, calc(-100vh - 4rem), 0);
+    opacity: 0;
+  }
+}
+
+@keyframes mote-sway {
+  0% {
+    transform: translate3d(calc(var(--sw, 12px) * -1), 0, 0) scale(0.92);
+    opacity: 0.72;
+  }
+  50% {
+    transform: translate3d(0, 0, 0) scale(1.06);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--sw, 12px), 0, 0) scale(0.94);
+    opacity: 0.78;
+  }
+}
+
 /* Touch screens: keep controls at a comfortable tap height. */
 @media (pointer: coarse) {
   .btn,
@@ -1377,6 +1511,9 @@ video {
   *, *::before, *::after {
     animation: none !important;
     transition: none !important;
+  }
+  .soul-motes {
+    display: none !important;
   }
 }
 
@@ -1494,7 +1631,18 @@ video {
 
 @media (min-width: 1024px) {
 
+  .lg\:block {
+    display: block;
+  }
+
   .lg\:grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1280px) {
+
+  .xl\:block {
+    display: block;
   }
 }

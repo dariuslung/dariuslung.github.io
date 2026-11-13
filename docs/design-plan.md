@@ -7,7 +7,7 @@ Move `dariuslung.github.io` off the generic Tailwind card look and onto a calm, 
 ## Principles
 
 1. **One idea, held back.** A well-set document with hand-inked detail: a clear grid, hairline rules, a few drawn ornaments. No patch bays, rack modules, VU meters, telemetry footers, or `SYS.*` labels, and no illustrated backgrounds.
-2. **Instant feedback.** Colour and border changes on hover are immediate (`transition: none`). Motion appears only in the 1px press on `:active`.
+2. **Instant feedback.** Colour and border changes on hover are immediate (`transition: none`). Motion appears only in the 1px press on `:active`, plus optional whisper-quiet ambient Soul Motes strictly in the outer desktop gutters on the home page (`>= 1024px`, masked clear of the 720px column and disabled under `prefers-reduced-motion`).
 3. **Nothing fake.** No made-up metrics, build info, or "latency" readouts. Every number on the page has to be real.
 4. **Content over chrome.** A projects section and a CV link do more for "professional" than any widget.
 5. **Accessible by default.** AA contrast, visible focus states, reduced-motion support, and nothing that only works on hover.

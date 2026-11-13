@@ -38,13 +38,16 @@
     </script>
 </head>
 <body class="min-h-screen flex flex-col">
+    {% if page.ambient_motes %}
+    {% include soul-motes.html %}
+    {% endif %}
     {% include navbar.html %}
 
-    <main class="page-width flex-grow py-10">
+    <main class="page-width relative z-10 flex-grow py-10">
         {{ content }}
     </main>
 
-    <footer class="border-t border-rule">
+    <footer class="relative z-10 bg-paper border-t border-rule">
         <div class="page-width py-6 flex flex-wrap items-center justify-between gap-2 text-sm text-muted">
             <span>&copy; {{ 'now' | date: '%Y' }} {{ site.title }}</span>
             <a class="hover:text-ink underline underline-offset-4" href="https://github.com/dariuslung/dariuslung.github.io">Source on GitHub</a>
