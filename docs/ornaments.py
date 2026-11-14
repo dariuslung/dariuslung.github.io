@@ -140,7 +140,7 @@ def _diamond(x, y, r, colour):
     return f'<path d="M{fmt(x)} {fmt(y - r)}L{fmt(x + r * 0.7)} {fmt(y)}L{fmt(x)} {fmt(y + r)}L{fmt(x - r * 0.7)} {fmt(y)}Z" fill="{colour}"/>'
 
 def filigree(colour='#000', sw=2.4, flip=False, centre='arch'):
-    """sw scales the stroke weights (2.4 is the web default). flip mirrors vertically, for the bottom ornament."""
+    """sw scales the stroke weights (2.4 is the base; the site SVGs use 3.4, the share image 2.4). flip mirrors vertically, for the bottom ornament."""
     k = sw / 2.4
     Y = (lambda y: FH - y) if flip else (lambda y: y)
     rng = random.Random(8)

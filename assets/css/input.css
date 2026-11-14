@@ -226,14 +226,11 @@
 
   /* Ambient side-gutter Soul Motes (home page only, strictly outside the 48rem .page-width column). */
   .soul-motes {
-    --m-scale: 0.62;
+    --m-scale: 1;
     position: fixed;
     inset: 0;
     pointer-events: none;
     z-index: 0;
-  }
-  .dark .soul-motes {
-    --m-scale: 1;
   }
   .soul-gutter {
     position: absolute;
@@ -278,7 +275,7 @@
     --m-tone: var(--c-signal);
   }
   .mote-bone {
-    --m-tone: var(--c-rule-strong);
+    --m-tone: var(--c-muted);
   }
   .dark .mote-bone {
     --m-tone: var(--c-ink);
