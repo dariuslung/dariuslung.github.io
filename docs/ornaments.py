@@ -152,7 +152,28 @@ def _xf(d, mirror, flip):
         return f'{fmt((FW - x) if mirror else x)} {fmt((FH - y) if flip else y)}'
     return _PAIR.sub(f, d)
 
-def _half(rng, k):
+def _vines(rng, k, level):
+    """Tapered tendrils that grow from the centre motif into the empty spaces: level 1 adds a long curl through
+    the pocket between the two big arcs and a hairline over the top arc; level 2 adds a short curled spur and a
+    hairline off the inner scroll. Pointed and thorned, never leafy (see the design plan)."""
+    j = lambda pts, a=0.45: [(x + rng.uniform(-a, a), y + rng.uniform(-a, a)) for x, y in pts]
+    P = []
+    T1 = j([(206.5, 29), (216, 32.5), (230, 31.5), (244, 33.5), (257, 31.5), (266, 27.5), (268, 23.5), (264.5, 22), (262, 25)])
+    p1 = _spline(T1)
+    P.append(_taper(p1, lambda t: (0.25 + 1.9 * max(0.0, math.sin(math.pi * min(t * 1.1, 1))) ** 1.1) * k if t < 0.9
+                    else (0.9 * (1 - t) / 0.1 + 0.1) * k))
+    T2 = j([(205, 12.8), (213, 8.5), (226, 5.8), (242, 4.8), (256, 6.2), (266, 9)])
+    P.append(_taper(_spline(T2), lambda t: (0.25 + 1.5 * math.sin(math.pi * min(t * 1.05, 1)) ** 1.1) * k))
+    P.append(_thorn(p1, 0.30, 4.6 * k ** 0.5, 2.6 * k ** 0.5, 1))
+    if level >= 2:
+        T3 = j([(232, 31.3), (236, 27.2), (242.5, 25.3), (248, 27), (247, 30), (243.5, 29.4)])
+        P.append(_taper(_spline(T3), lambda t: (0.2 + 1.3 * math.sin(math.pi * t) ** 0.9) * k))
+        T4 = j([(214, 19.5), (217, 14.5), (223, 11.2), (230, 10.5)])
+        P.append(_taper(_spline(T4), lambda t: (1.2 * (1 - t) ** 0.9 + 0.12) * k))
+        P.append(_thorn(p1, 0.55, 4.0 * k ** 0.5, 2.4 * k ** 0.5, 1))
+    return P
+
+def _half(rng, k, vines=0):
     """One side's scrollwork as path data in right-hand coordinates. Each side gets its own rng, so the
     two halves are mirrored in structure but differ by a hand's worth of wobble."""
     j = lambda pts: [(x + rng.uniform(-0.5, 0.5), y + rng.uniform(-0.5, 0.5)) for x, y in pts]
@@ -176,6 +197,8 @@ def _half(rng, k):
     for frac, h, b in ((0.15, 7.8, 3.8), (0.30, 6.0, 3.4), (0.45, 3.8, 2.8)):
         P.append(_thorn(polyA, frac, h * k ** 0.5, b * k ** 0.5, -1))
     P.append(_dpath(386, 25, 2.9 * k ** 0.5))
+    if vines:
+        P += _vines(random.Random(rng.random()), k, vines)
     return P
 
 def _centre(kind, k, rng):
@@ -210,13 +233,14 @@ def _centre(kind, k, rng):
     P.append(_dpath(200, 44.8, 1.9 * k ** 0.5))
     return P, None
 
-def filigree(colour='#000', sw=2.4, flip=False, centre='arch', seed=1):
+def filigree(colour='#000', sw=2.4, flip=False, centre='arch', seed=1, vines=0):
     """sw scales the stroke weights (2.4 is the base). flip mirrors vertically, for the bottom ornament.
-    seed varies the hand wobble, so the top and bottom ornaments are not copies of each other."""
+    seed varies the hand wobble, so the top and bottom ornaments are not copies of each other.
+    vines (0-2) grows tendrils from the centre; the web bottom ornament is the denser one."""
     k = sw / 2.4
     out = []
     for mirror, off in ((False, 0), (True, 7)):       # each half drawn with its own wobble
-        for d in _half(random.Random(seed + off), k):
+        for d in _half(random.Random(seed + off), k, vines):
             out.append(f'<path d="{_xf(d, mirror, flip)}" fill="{colour}"/>')
     paths, dot = _centre(centre, k, random.Random(seed + 3))
     for d in paths:
@@ -235,12 +259,12 @@ if __name__ == '__main__':
     open(f'{root}/assets/img/favicon.svg', 'w').write(favicon_shard())
     open(f'{scratch}/apple-touch-icon.svg', 'w').write(apple_icon_svg())
     open(f'{out}/filigree-top.svg', 'w').write(filigree(sw=3.4, flip=False, centre='arch'))
-    open(f'{out}/filigree-bottom.svg', 'w').write(filigree(sw=3.4, flip=True, centre='shard', seed=21))
+    open(f'{out}/filigree-bottom.svg', 'w').write(filigree(sw=3.4, flip=True, centre='shard', seed=21, vines=2))
     # coloured copies for previews and the share image
     for name, fn in (('corner', corner), ('divider-line', divider_line), ('divider-gem', divider_gem)):
         open(f'{scratch}/{name}-bone.svg', 'w').write(fn('#E4DFD0'))
     for name, fn in (('corner', corner), ('divider-line', divider_line), ('divider-gem', divider_gem)):
         open(f'{scratch}/{name}-soul.svg', 'w').write(fn('#8EC9E8'))
-    for name, kw in (('top', dict(flip=False, centre='arch')), ('bottom', dict(flip=True, centre='shard', seed=21))):
+    for name, kw in (('top', dict(flip=False, centre='arch')), ('bottom', dict(flip=True, centre='shard', seed=21, vines=2))):
         open(f'{scratch}/filigree-{name}-og.svg', 'w').write(filigree(colour='#E4DFD0', sw=2.4, **kw))
     print('ok')
