@@ -139,76 +139,91 @@ def _thorn(poly, frac, height, base, side):
 def _diamond(x, y, r, colour):
     return f'<path d="M{fmt(x)} {fmt(y - r)}L{fmt(x + r * 0.7)} {fmt(y)}L{fmt(x)} {fmt(y + r)}L{fmt(x - r * 0.7)} {fmt(y)}Z" fill="{colour}"/>'
 
-def filigree(colour='#000', sw=2.4, flip=False, centre='arch'):
-    """sw scales the stroke weights (2.4 is the base; the site SVGs use 3.4, the share image 2.4). flip mirrors vertically, for the bottom ornament."""
-    k = sw / 2.4
-    Y = (lambda y: FH - y) if flip else (lambda y: y)
-    rng = random.Random(8)
-    jit = lambda pts: [(x + rng.uniform(-0.12, 0.12), y + rng.uniform(-0.12, 0.12)) for x, y in pts]
-    half = []   # right-hand elements as ('path', d) or ('raw', svg-string-with-x-placeholders)
+def _dpath(x, y, r):
+    """Path data for a small diamond (used where the shape is transformed later)."""
+    return f'M{fmt(x)} {fmt(y - r)}L{fmt(x + r * 0.7)} {fmt(y)}L{fmt(x)} {fmt(y + r)}L{fmt(x - r * 0.7)} {fmt(y)}Z'
 
-    # A: the main arc that rises from the centre, then turns down and in to a scroll
-    A = jit([(205, 27), (221, 22), (244, 15), (270, 12), (294, 14.5), (312, 21), (321, 30), (316, 38.5),
-             (305, 38.5), (298.5, 31), (302.5, 24.5), (310, 25.5), (312.5, 29.5)])
+_PAIR = re.compile(r'(-?\d+\.?\d*) (-?\d+\.?\d*)')
+
+def _xf(d, mirror, flip):
+    """Mirror about x=200 and/or flip vertically every coordinate pair in a path."""
+    def f(m):
+        x, y = float(m.group(1)), float(m.group(2))
+        return f'{fmt((FW - x) if mirror else x)} {fmt((FH - y) if flip else y)}'
+    return _PAIR.sub(f, d)
+
+def _half(rng, k):
+    """One side's scrollwork as path data in right-hand coordinates. Each side gets its own rng, so the
+    two halves are mirrored in structure but differ by a hand's worth of wobble."""
+    j = lambda pts: [(x + rng.uniform(-0.5, 0.5), y + rng.uniform(-0.5, 0.5)) for x, y in pts]
+    P = []
+    # A: the main arc that rises from the centre, turns down and in to a scroll (thin parts thin, swells fat)
+    A = j([(205, 27), (221, 22), (244, 15), (270, 12), (294, 14.5), (312, 21), (321, 30), (316, 38.5),
+           (305, 38.5), (298.5, 31), (302.5, 24.5), (310, 25.5), (312.5, 29.5)])
     polyA = _spline(A)
-    half.append(('path', _taper(polyA, lambda t: (0.5 + 2.3 * math.sin(math.pi * min(t * 1.18, 1)) ** 0.8) * k if t < 0.85 else (1.5 * (1 - (t - 0.85) / 0.15) + 0.3) * k)))
+    P.append(_taper(polyA, lambda t: (0.22 + 2.7 * max(0.0, math.sin(math.pi * min(t * 1.18, 1))) ** 1.25) * k if t < 0.85
+                    else (1.4 * max(0.0, 1 - (t - 0.85) / 0.15) ** 1.3 + 0.12) * k))
     # B: the lower arc that sweeps out past the scroll and ends in an upturned thorn
-    B = jit([(206, 31), (232, 38), (270, 43.5), (318, 44.5), (352, 39), (371, 30), (378, 21)])
-    half.append(('path', _taper(_spline(B), lambda t: (0.4 + 2.0 * math.sin(math.pi * t) ** 0.9) * k)))
+    B = j([(206, 31), (232, 38), (270, 43.5), (318, 44.5), (352, 39), (371, 30), (378, 21)])
+    P.append(_taper(_spline(B), lambda t: (0.3 + 2.2 * math.sin(math.pi * t) ** 1.1) * k))
     # C: a thin outer hairline that leaves the top of A and tapers to a point
-    C = jit([(311, 21.5), (332, 16.5), (356, 17.5), (376, 22), (392, 25)])
-    half.append(('path', _taper(_spline(C), lambda t: (1.5 * (1 - t) ** 0.8 + 0.1) * k)))
+    C = j([(311, 21.5), (332, 16.5), (356, 17.5), (376, 22), (392, 25)])
+    P.append(_taper(_spline(C), lambda t: (1.5 * (1 - t) ** 0.8 + 0.1) * k))
     # D: a small inner scroll that curls away from the base of the centre motif
-    D = jit([(206, 26), (214, 28.5), (221, 26.5), (221, 20.5), (216, 18.5), (213, 21.5), (216, 23.5)])
-    half.append(('path', _taper(_spline(D), lambda t: (0.4 + 1.7 * math.sin(math.pi * t) ** 0.8) * k)))
-    # thorns along A
-    for frac, h, b in ((0.17, 6.2, 3.6), (0.29, 7.4, 3.8), (0.41, 6.4, 3.6)):
-        half.append(('path', _thorn(polyA, frac, h * k ** 0.5, b * k ** 0.5, -1)))
-    # small diamonds and a dot in the scroll
-    half.append(('raw', _diamond(386, 25, 2.9 * k ** 0.5, colour)))
-    half.append(('raw', f'<circle cx="308" cy="30" r="{fmt(1.25 * k ** 0.5)}" fill="{colour}"/>'))
+    D = j([(206, 26), (214, 28.5), (221, 26.5), (221, 20.5), (216, 18.5), (213, 21.5), (216, 23.5)])
+    P.append(_taper(_spline(D), lambda t: (0.3 + 1.9 * math.sin(math.pi * t) ** 0.9) * k))
+    # thorns along A, uneven and shrinking toward the tip
+    for frac, h, b in ((0.15, 7.8, 3.8), (0.30, 6.0, 3.4), (0.45, 3.8, 2.8)):
+        P.append(_thorn(polyA, frac, h * k ** 0.5, b * k ** 0.5, -1))
+    P.append(_dpath(386, 25, 2.9 * k ** 0.5))
+    return P
 
+def _centre(kind, k, rng):
+    """Centre motif as (path data list, dot): 'arch' is a pointed lancet with horns (top), 'shard' a
+    double-ringed pointed oval round a diamond with horns on both tips (bottom). Mirrored about x=200."""
+    jt = lambda pts: [(x + rng.uniform(-0.3, 0.3), y + rng.uniform(-0.3, 0.3)) for x, y in pts]
+    both = lambda pts: [[((FW - x) if m else x, y) for x, y in _spline(pts)] for m in (False, True)]
+    P = []
+    def stroke(pts, w):
+        P.append(_taper(pts, w))
+    if kind == 'arch':
+        for pts in both(jt([(191.5, 27), (192.6, 19.5), (195.8, 12.5), (200, 5.8)])):
+            stroke(pts, lambda t: (0.4 + 2.3 * math.sin(math.pi * t) ** 0.9) * k)
+        for pts in both(jt([(191.5, 27), (193, 31.5), (196.4, 35), (200, 37.5)])):      # closes the lancet
+            stroke(pts, lambda t: (0.5 + 1.9 * math.sin(math.pi * t) ** 0.9) * k)
+        for pts in both(jt([(193.4, 15.5), (190.5, 11.5), (186.5, 9.5)])):              # horns off the arch
+            stroke(pts, lambda t: (2.0 * (1 - t) ** 0.9 + 0.1) * k)
+        for pts in both(jt([(193.2, 33), (190, 37.5), (185.5, 40)])):                   # and off the foot
+            stroke(pts, lambda t: (1.8 * (1 - t) ** 0.9 + 0.1) * k)
+        P.append(_dpath(200, 17.5, 3.6 * k ** 0.5))
+        P.append(_dpath(200, 30.5, 1.9 * k ** 0.5))
+        return P, (200, 2.6, 1.15 * k ** 0.5)
+    for pts in both(jt([(200, 5), (205.5, 13), (208, 24), (205.5, 35), (200, 43)])):
+        stroke(pts, lambda t: (0.4 + 2.2 * math.sin(math.pi * t) ** 0.9) * k)
+    for pts in both(jt([(200, 11), (203.6, 17), (204.8, 24), (203.6, 31), (200, 37)])):   # inner hairline ring
+        stroke(pts, lambda t: (0.2 + 0.8 * math.sin(math.pi * t) ** 0.9) * k)
+    for yy, d in ((7, -1), (41, 1)):                                                      # horns off both tips
+        for pts in both(jt([(199.2, yy), (195.2, yy + d * 3.6), (189.5, yy + d * 4.6)])):
+            stroke(pts, lambda t: (1.9 * (1 - t) ** 0.9 + 0.1) * k)
+    P.append(_dpath(200, 24, 5.4 * k ** 0.5))
+    P.append(_dpath(200, 3.2, 1.9 * k ** 0.5))
+    P.append(_dpath(200, 44.8, 1.9 * k ** 0.5))
+    return P, None
+
+def filigree(colour='#000', sw=2.4, flip=False, centre='arch', seed=1):
+    """sw scales the stroke weights (2.4 is the base). flip mirrors vertically, for the bottom ornament.
+    seed varies the hand wobble, so the top and bottom ornaments are not copies of each other."""
+    k = sw / 2.4
     out = []
-    for mirror in (False, True):
-        for kind, data in half:
-            if kind == 'path':
-                d = data
-                if flip or mirror:
-                    import re
-                    def tf(m):
-                        x, y = float(m.group(1)), float(m.group(2))
-                        return f'{fmt((FW - x) if mirror else x)} {fmt(Y(y))}'
-                    d = re.sub(r'(-?\d+\.?\d*) (-?\d+\.?\d*)', tf, d)
-                out.append(f'<path d="{d}" fill="{colour}"/>')
-            else:
-                import re
-                def tf2(m):
-                    attr, v = m.group(1), float(m.group(2))
-                    return f'{attr}="{fmt(FW - v)}"' if mirror and attr == 'cx' else f'{attr}="{fmt(Y(v))}"' if attr == 'cy' else m.group(0)
-                svgs = data
-                if mirror or flip:
-                    if svgs.startswith('<circle'):
-                        svgs = re.sub(r'(cx|cy)="(-?\d+\.?\d*)"', tf2, svgs)
-                    else:
-                        svgs = re.sub(r'(-?\d+\.?\d*) (-?\d+\.?\d*)', lambda m: f'{fmt((FW - float(m.group(1))) if mirror else float(m.group(1)))} {fmt(Y(float(m.group(2))))}', svgs)
-                out.append(svgs)
-
-    # centre motif
-    if centre == 'arch':
-        for mirror in (False, True):
-            arc = jit([(191.5, 27), (192.6, 19.5), (195.8, 12.5), (200, 5.8)])
-            pts = [((FW - x) if mirror else x, Y(y)) for x, y in _spline(arc)]
-            out.append(f'<path d="{_taper(pts, lambda t: (0.5 + 2.1 * math.sin(math.pi * t) ** 0.8) * k)}" fill="{colour}"/>')
-        out.append(_diamond(200, Y(17.5), 3.6 * k ** 0.5, colour))
-        out.append(f'<circle cx="200" cy="{fmt(Y(2.6))}" r="{fmt(1.15 * k ** 0.5)}" fill="{colour}"/>')
-    else:
-        for mirror in (False, True):
-            arc = jit([(200, 5), (205.5, 13), (208, 24), (205.5, 35), (200, 43)])
-            pts = [((FW - x) if mirror else x, Y(y)) for x, y in _spline(arc)]
-            out.append(f'<path d="{_taper(pts, lambda t: (0.4 + 2.2 * math.sin(math.pi * t) ** 0.9) * k)}" fill="{colour}"/>')
-        out.append(_diamond(200, 24, 6.2 * k ** 0.5, colour))
-        out.append(_diamond(200, 3.2, 1.9 * k ** 0.5, colour))
-        out.append(_diamond(200, 44.8, 1.9 * k ** 0.5, colour))
+    for mirror, off in ((False, 0), (True, 7)):       # each half drawn with its own wobble
+        for d in _half(random.Random(seed + off), k):
+            out.append(f'<path d="{_xf(d, mirror, flip)}" fill="{colour}"/>')
+    paths, dot = _centre(centre, k, random.Random(seed + 3))
+    for d in paths:
+        out.append(f'<path d="{_xf(d, False, flip)}" fill="{colour}"/>')
+    if dot:
+        cx, cy, r = dot
+        out.append(f'<circle cx="{fmt(cx)}" cy="{fmt(FH - cy if flip else cy)}" r="{fmt(r)}" fill="{colour}"/>')
     return svg(FW, FH, ''.join(out))
 
 if __name__ == '__main__':
@@ -220,12 +235,12 @@ if __name__ == '__main__':
     open(f'{root}/assets/img/favicon.svg', 'w').write(favicon_shard())
     open(f'{scratch}/apple-touch-icon.svg', 'w').write(apple_icon_svg())
     open(f'{out}/filigree-top.svg', 'w').write(filigree(sw=3.4, flip=False, centre='arch'))
-    open(f'{out}/filigree-bottom.svg', 'w').write(filigree(sw=3.4, flip=True, centre='shard'))
+    open(f'{out}/filigree-bottom.svg', 'w').write(filigree(sw=3.4, flip=True, centre='shard', seed=21))
     # coloured copies for previews and the share image
     for name, fn in (('corner', corner), ('divider-line', divider_line), ('divider-gem', divider_gem)):
         open(f'{scratch}/{name}-bone.svg', 'w').write(fn('#E4DFD0'))
     for name, fn in (('corner', corner), ('divider-line', divider_line), ('divider-gem', divider_gem)):
         open(f'{scratch}/{name}-soul.svg', 'w').write(fn('#8EC9E8'))
-    for name, kw in (('top', dict(flip=False, centre='arch')), ('bottom', dict(flip=True, centre='shard'))):
+    for name, kw in (('top', dict(flip=False, centre='arch')), ('bottom', dict(flip=True, centre='shard', seed=21))):
         open(f'{scratch}/filigree-{name}-og.svg', 'w').write(filigree(colour='#E4DFD0', sw=2.4, **kw))
     print('ok')
