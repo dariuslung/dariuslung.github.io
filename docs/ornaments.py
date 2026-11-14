@@ -203,7 +203,7 @@ def _half(rng, k, vines=0):
 
 def _centre(kind, k, rng):
     """Centre motif as (path data list, dot): 'arch' is a pointed lancet with horns (top), 'shard' a
-    double-ringed pointed oval round a diamond with horns on both tips (bottom). Mirrored about x=200."""
+    pointed oval round a diamond with horns on both tips (bottom). Mirrored about x=200."""
     jt = lambda pts: [(x + rng.uniform(-0.3, 0.3), y + rng.uniform(-0.3, 0.3)) for x, y in pts]
     both = lambda pts: [[((FW - x) if m else x, y) for x, y in _spline(pts)] for m in (False, True)]
     P = []
@@ -223,8 +223,6 @@ def _centre(kind, k, rng):
         return P, (200, 2.6, 1.15 * k ** 0.5)
     for pts in both(jt([(200, 5), (205.5, 13), (208, 24), (205.5, 35), (200, 43)])):
         stroke(pts, lambda t: (0.4 + 2.2 * math.sin(math.pi * t) ** 0.9) * k)
-    for pts in both(jt([(200, 11), (203.6, 17), (204.8, 24), (203.6, 31), (200, 37)])):   # inner hairline ring
-        stroke(pts, lambda t: (0.2 + 0.8 * math.sin(math.pi * t) ** 0.9) * k)
     for yy, d in ((7, -1), (41, 1)):                                                      # horns off both tips
         for pts in both(jt([(199.2, yy), (195.2, yy + d * 3.6), (189.5, yy + d * 4.6)])):
             stroke(pts, lambda t: (1.9 * (1 - t) ** 0.9 + 0.1) * k)
